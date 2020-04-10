@@ -1,0 +1,253 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Libre's Blog</title><link>https://libre.fun/</link><description>Recent content on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Fri, 10 Apr 2020 19:37:26 +0800</lastBuildDate><atom:link href="https://libre.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://libre.fun/about/</link><pubDate>Fri, 10 Apr 2020 19:37:26 +0800</pubDate><guid>https://libre.fun/about/</guid><description>Libre's Blog https://libre.fun/about/ -&lt;p>Hugo is the world’s fastest framework for building websites. It is written in Go.&lt;/p>
+&lt;p>It makes use of a variety of open source projects including:&lt;/p>
+&lt;p>&lt;a href="https://github.com/russross/blackfriday">https://github.com/russross/blackfriday&lt;/a>
+&lt;a href="https://github.com/alecthomas/chroma">https://github.com/alecthomas/chroma&lt;/a>
+&lt;a href="https://github.com/muesli/smartcrop">https://github.com/muesli/smartcrop&lt;/a>
+&lt;a href="https://github.com/spf13/cobra">https://github.com/spf13/cobra&lt;/a>
+&lt;a href="https://github.com/spf13/viper">https://github.com/spf13/viper&lt;/a>
+Learn more and contribute on GitHub.&lt;/p>
+- https://libre.fun/about/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>Libre's Blog https://libre.fun/posts/install-wsl-and-troubleshooting/ -&lt;!-- raw HTML omitted -->
+&lt;h2 id="什么是wsl">什么是WSL&lt;/h2>
+&lt;p>WSL中文全称为《适用于 Linux 的 Windows 子系统》（Windows Subsystem for Linux），是一个为在Windows 10和Windows Server 2019上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。&lt;/p>
+&lt;p>WSL相比于VMware等虚拟机解决方案更加轻量，启动速度更快，但代价是阉割了一些Linux系统的功能，例如&lt;code>systemd&lt;/code>、Ubuntu中的&lt;code>snapd&lt;/code>等（截止本文写作时）。但是对于一般Linux用户的使用是足够的。&lt;/p>
+&lt;h2 id="wsl的启用">WSL的启用&lt;/h2>
+&lt;p>在默认设置下，WSL是被关闭的，因此，首先需要在系统中开启WSL，有以下两种方式：&lt;/p>
+&lt;h3 id="通过图形界面启用wsl">通过图形界面启用WSL&lt;/h3>
+&lt;p>Windows《设置》➡《应用》➡右侧《程序和功能》➡《启用或关闭Windows功能》➡勾选《适用于 Linux 的 Windows 子系统》&lt;/p>
+&lt;p>确定之后重启系统。&lt;/p>
+&lt;h3 id="通过命令行启用wsl">通过命令行启用WSL&lt;/h3>
+&lt;p>开始菜单按钮单击右键➡《Windows Powershell （管理员）》，打开Powershell后运行以下命令：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>开始下载相关数据，下载完成后输入《yes》重启系统。&lt;/p>
+&lt;h2 id="wsl的安装">WSL的安装&lt;/h2>
+&lt;p>在Windows中启用WSL之后，就可以安装你想使用的Linux发行版了，然而，这也要官方提供了相应的安装包才行。&lt;/p>
+&lt;p>安装WSL同样有两种方式，一种是通过Microsoft Store安装，另一种是下载相应的应用包之后手动安装。鉴于Microsoft Store在网络方面的表现非常不稳定，推荐手动安装。&lt;/p>
+&lt;h3 id="手动安装">手动安装👍&lt;/h3>
+&lt;p>因为一些其他的原因，我之前就卸载了Microsoft Store，所以这里选择手动安装。根据&lt;a href="https://docs.microsoft.com/en-us/windows/wsl/install-manual">官方文档&lt;/a>，首先下载Ubuntu 18.04的Appx包，方便起见，将其重命名为&lt;code>ubuntu18.04.Appx&lt;/code>：&lt;/p>
+&lt;figure>
+&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20191029132023.png"/>
+&lt;/figure>
+&lt;p>假设下载好的包位于&lt;code>D:\Download&lt;/code>文件夹下，打开Powershell，运行以下命令即可安装：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\Download
+Add-AppxPackage .\ubuntu18.04.Appx
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="通过microsoft-store安装">通过Microsoft Store安装👎&lt;/h3>
+&lt;p>进入Microsoft Store，搜索《Linux》，会出现官方提供的安装包，如下图所示（电脑上卸载了Microsoft Store，所以用网页版的截图代替一下）：&lt;/p>
+&lt;figure>
+&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20191029131346.png"/>
+&lt;/figure>
+&lt;p>选择你想要的版本进行安装，我这里选择了Ubuntu 18.04 LTS。&lt;/p>
+&lt;h2 id="wsl的运行">WSL的运行&lt;/h2>
+&lt;p>安装好之后就可以进入系统了，同样地，可以通过在CMD或则Powershell输入&lt;code>ubuntu1804.exe&lt;/code>直接在当前窗口进入WSL Ubuntu，也可以在开始菜单中找到新添加的&lt;code>Ubuntu 18.04&lt;/code>打开。&lt;/p>
+&lt;p>安装之后初次运行需要一些初始化的时间，需要等待一下。WSL默认有一个&lt;code>root&lt;/code>用户，但初次运行通常会要求你添加一个新用户，按照提示输入用户名和密码即可，该用户会被自动成为&lt;code>sudoer&lt;/code>。如遇到提示《Permission Denied》或需要以&lt;code>root&lt;/code>身份运行某些命令时，在命令前加上&lt;code>sudo&lt;/code>即可。&lt;/p>
+&lt;h2 id="troubleshooting">Troubleshooting&lt;/h2>
+&lt;h3 id="wsl如何重启">WSL如何重启&lt;/h3>
+&lt;blockquote>
+&lt;p>参考：&lt;a href="https://superuser.com/questions/1126721/rebooting-ubuntu-on-windows-without-rebooting-windows">Rebooting Ubuntu on Windows without rebooting Windows?&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>如果你在WSL中执行了类似&lt;code>apt upgrade&lt;/code>的命令，可能会提示你需要重启WSL系统。然而，如果你想像正常的Linux那样执行&lt;code>reboot&lt;/code>命令，会提示无法执行。下面的Powershell（管理员）命令可以在不重启Windows系统的情况下重启WSL：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">Restart-Service LxssManager
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者CMD（管理员）命令：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">net stop LxssManager
+net start LxssManager
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果你的Windows版本大于等于Build 18917，还有更方便的：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">wsl --shutdown
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果系统中存在多个WSL发行版，你只想重启其中一个的话（需要Windows 1903+）：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">wsl -t &amp;lt;DistroName&amp;gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="在windows中通过xshell等ssh工具无法连接到wsl">在Windows中通过XShell等SSH工具无法连接到WSL&lt;/h3>
+&lt;p>要使用XShell（其他SSH工具均可，主要讨论的是WSL端的配置）SSH正确连接到WSL，以下几个方面都需要确认，遇到同样问题的朋友可以逐步排查：&lt;/p>
+&lt;h4 id="确认wsl已经启动">确认WSL已经启动&lt;/h4>
+&lt;p>在Windows中启动过一次WSL之后，在下次重启Windows系统之前，WSL都会一直在后台运行。但是一旦重启了Windows系统，就必须先启动WSL。&lt;/p>
+&lt;p>如果想要WSL随Windows一起启动，可以将其写进计划任务里，通过以下命令即可让WSL开机启动：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-c" data-lang="c"> powershell.exe &lt;span style="color:#f92672">-&lt;/span>WindowStyle Hidden &lt;span style="color:#f92672">-&lt;/span>c &lt;span style="color:#f92672">&amp;lt;&lt;/span>wsl&lt;span style="color:#f92672">-&lt;/span>name&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>其中&lt;code>&amp;lt;wsl-name&amp;gt;&lt;/code>需要替换成你安装的WSL发行版启动程序名称，在本文中为&lt;code>ubuntu1804.exe&lt;/code>。&lt;/p>
+&lt;h4 id="确认wsl中的ssh后台进程已经启动">确认WSL中的&lt;code>ssh&lt;/code>后台进程已经启动&lt;/h4>
+&lt;p>可通过以下命令查看和启动：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ service ssh status
+$ service ssh start
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>默认设置下，WSL中的&lt;code>ssh&lt;/code>服务不会开机启动。如果你是一个习惯使用XShell等工具连接到Linux主机，或是想要使用VSCode远程插件来使用WSL进行开发，那么你可能希望随时能够通过SSH连接到WSL，无须额外的手动操作。&lt;/p>
+&lt;p>我把在WSL中设置开机启动项的方法写在了&lt;a href="">这篇文章#TODO&lt;/a>中。&lt;/p>
+&lt;h4 id="确认ssh-host-key正确存在">确认SSH Host Key正确存在&lt;/h4>
+&lt;p>通过&lt;code>service ssh start&lt;/code>启动&lt;code>sshd&lt;/code>服务时，可能会出现如下提示：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ sudo service ssh start
+* Starting OpenBSD Secure Shell server sshd Could not load host key: /etc/ssh/ssh_host_rsa_key
+Could not load host key: /etc/ssh/ssh_host_ecdsa_key
+Could not load host key: /etc/ssh/ssh_host_ed25519_key &lt;span style="color:#f92672">[&lt;/span> OK &lt;span style="color:#f92672">]&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这是因为&lt;code>ssh&lt;/code>没有生成对应的主机密钥，一般来讲在安装&lt;code>ssh&lt;/code>时会自动生成，但是大概是WSL把这一部分阉割到了，我们可以通过以下命令来手动生成：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+$ ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key
+$ ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后通过&lt;code>service ssh --full-restart&lt;/code>重启服务。&lt;/p>
+&lt;h4 id="sshd_config配置正确">&lt;code>sshd_config&lt;/code>配置正确&lt;/h4>
+&lt;p>WSL自带的&lt;code>sshd&lt;/code>的配置中有很多导致不能登录成功的地方，通过以下命令打开&lt;code>sshd_config&lt;/code>进行查看和修改：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ vim /etc/ssh/sshd_config
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>确认以下几个选项没有没注释且你的&lt;code>sshd_config&lt;/code>中对应选项的值和这里是一样的：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">PasswordAuthentication yes
+PermitEmptyPasswords yes
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>保存退出，&lt;code>service ssh restart&lt;/code>重启服务。&lt;/p>
+&lt;h4 id="wsl中的ssh端口问题">WSL中的SSH端口问题&lt;/h4>
+&lt;p>在摸索的过程中，我发现在StackOverflow论坛上有人遇到了一个非常有意思的问题：当WSL的SSH端口为22时，无法连接，修改为其他端口号才可以，例如10022。修改方法也很简单，在&lt;code>sshd_config&lt;/code>中，查看和修改以下选项的值，确认未被注释：&lt;/p>
+&lt;pre>&lt;code class="language-shel" data-lang="shel">Port 10022
+&lt;/code>&lt;/pre>&lt;p>该问题我自己没有遇到，但是对于某些安装了SSH服务的Windows主机来说可能会出现，因为Windows首先要确保主系统的SSH（默认也是开放在22端口）正常工作，因此可能会对WSL中运行在22端口的SSH产生干扰。&lt;/p>
+&lt;p>这里记录下来，以备后用。&lt;/p>
+- https://libre.fun/posts/install-wsl-and-troubleshooting/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://libre.fun/posts/setup-startup-in-wsl/ -&lt;!-- raw HTML omitted -->
+&lt;p>在 &lt;a href="#TODO">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
+&lt;p>但是对于大部分使用WSL的人而言，无论是出于刚性需求（例如在WSL中运行一个Web服务器）、还是使用方便（随时通过SSH连接到WSL），都可能需要在WSL中加入开机启动项。具体方法如下所述。&lt;/p>
+&lt;p>本文以&lt;code>ssh&lt;/code>服务为例，该服务在WSL Ubuntu 18.04 LTS发行版中自带，但不会开机启动。&lt;/p>
+&lt;h3 id="在wsl中写好启动项脚本">在WSL中写好启动项脚本&lt;/h3>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">echo -e &lt;span style="color:#e6db74">&amp;#34;#! /bin/bash\n/etc/init.d/ssh start&amp;#34;&lt;/span> | tee -a /etc/init.wsl
+chmod +x /etc/init.wsl
+echo &lt;span style="color:#e6db74">&amp;#34;%sudo ALL=(ALL) NOPASSWD: /etc/init.wsl&amp;#34;&lt;/span> | tee -a /etc/sudoers
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>上面的命令做了三件事：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>在&lt;code>/etc&lt;/code>目录下生成名为&lt;code>init.wsl&lt;/code>的文件，并向其中写入以下两行内容：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#75715e">#! /bin/bash
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>/etc/init.d/ssh start
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>第一行向系统声明该脚本需要&lt;code>/bin/bash&lt;/code>来执行，第二行则是执行&lt;code>ssh&lt;/code>的启动脚本。&lt;/p>
+&lt;p>如果你有其他服务需要开机启动，使用&lt;code>vim&lt;/code>编辑&lt;code>/etc/init.wsl&lt;/code>，并将下面命令中的&lt;code>&amp;lt;service_name&amp;gt;&lt;/code>替换成需要的服务名即可，该服务需要在&lt;code>/etc/init.d&lt;/code>目录下存在：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">/etc/init.d/&amp;lt;service_name&amp;gt; start
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>赋予&lt;code>/etc/init.wsl&lt;/code>脚本可执行权限&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在&lt;code>/etc/sudoers&lt;/code>文件中声明：执行&lt;code>/etc/init.wsl&lt;/code>脚本不需要输入密码&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="在windows中添加开机启动脚本">在Windows中添加开机启动脚本&lt;/h3>
+&lt;p>由于WSL说到底还是Windows内置的一个“服务”，或者说是“组件”，因此对它的一些操作还是免不了要从Windows本身进行。&lt;/p>
+&lt;p>按下《Win + R》，输入&lt;code>shell:startup&lt;/code>后回车，打开启动项文件夹。新建一个名为&lt;code>WhateverYouLike.vbs&lt;/code>的文件，并使用记事本或者VSCode打开它，输入以下内容：&lt;/p>
+&lt;pre>&lt;code class="language-vbscript" data-lang="vbscript">Set ws = CreateObject(&amp;quot;Wscript.Shell&amp;quot;)
+ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;quot;&amp;quot;, vbhide
+&lt;/code>&lt;/pre>&lt;p>我对VB脚本语言不太了解，但是大概能理解这两句的含义。&lt;/p>
+&lt;p>第一句创建了一个可以执行命令的对象，命名为&lt;code>ws&lt;/code>；第二句调用了该对象的&lt;code>run&lt;/code>方法，执行了一句windows内的命令：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">bash -c &lt;span style="color:#e6db74">&amp;#34;sudo /etc/init.wsl&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>末尾传递的参数&lt;code>vbhide&lt;/code>是表示在后台执行该脚本。&lt;/p>
+&lt;p>最后提一句，可以看到&lt;code>ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;quot;&amp;quot;, vbhide&lt;/code>中有很多个双引号，看得人眼花缭乱，但这实际上是由于VBScript的转义字符规则所导致，实在谈不上美观。&lt;/p>
+- https://libre.fun/posts/setup-startup-in-wsl/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>虚拟机 Ubuntu 18.04.3 代理配置</title><link>https://libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>Libre's Blog https://libre.fun/posts/vmware-ubuntu-proxy-configure/ -&lt;p>由于国内的网络问题，无论是物理机还是虚拟机安装Linux系统之后，总会遇到各种各样跟网络相关的问题，例如Ubuntu下APT源、Snap源访问速度慢、Git Clone速度慢，或者需要在浏览器中访问被墙的网站等等，因此使用代理（科学上网）是不得不采取的手段。&lt;/p>
+&lt;p>本文主要阐述在&lt;strong>虚拟机&lt;/strong>中安装Ubuntu后一些配置代理的方法，包括APT的代理、Snap的代理、Git的代理、命令行的代理以及Ubuntu系统层面的HTTP代理。&lt;/p>
+&lt;h2 id="准备工作">准备工作&lt;/h2>
+&lt;h3 id="使用vmware安装ubuntu-18043系统">使用VMware安装Ubuntu 18.04.3系统&lt;/h3>
+&lt;p>略。该步骤请读者自行完成。&lt;/p>
+&lt;h3 id="确认虚拟机使用nat模式连接网络">确认虚拟机使用NAT模式连接网络&lt;/h3>
+&lt;p>打开VMware，右键点击左侧《库》面板中安装好的虚拟机，进入《网络适配器》查看网络连接模式，将其设置为《NAT模式》，如下图所示&lt;/p>
+&lt;figure>
+&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20191105215106.png"/>
+&lt;/figure>
+&lt;h3 id="宿主机科学上网工具的准备">宿主机科学上网工具的准备❗&lt;/h3>
+&lt;p>宿主机（即安装VMware的主机）上需要一定的科学上网工具，例如SSR或者SS。科学上网工具的安装与使用超出了本文的范畴。&lt;/p>
+&lt;p>在SS或者SSR中，需要打开“允许来自局域网的连接”(SSR-windows 4.9.2)或者“允许其他设备连入”(SS-windows 4.1.7)等类似的选项。该选项的名称可能会根据科学上网工具版本的不同而有细微的差别&lt;/p>
+&lt;h3 id="在宿主机上安装xshell-可选">在宿主机上安装XShell （可选）&lt;/h3>
+&lt;p>XShell是一个用于SSH连接到主机的工具，这里推荐安装和使用。如果没有使用过这类工具的用户可以略过。&lt;/p>
+&lt;h3 id="查看宿主机ip地址">查看宿主机IP地址&lt;/h3>
+&lt;p>以Windows为例，按下《Win+R》，输入&lt;code>cmd&lt;/code>并按下回车，打开Windows命令提示符。&lt;/p>
+&lt;p>输入&lt;code>ipconfig&lt;/code>，在《以太网适配器 以太网》中查看IPv4地址，通常以&lt;code>172.16/17/18&lt;/code>或者&lt;code>192.168&lt;/code>开头。&lt;/p>
+&lt;p>将该IP地址记为&lt;code>HOST_IP&lt;/code>，后文中将始终使用&lt;code>HOST_IP&lt;/code>来代替真实的宿主机IP地址。读者在使用时请替换成自己宿主机的IP地址。&lt;/p>
+&lt;h3 id="确认科学上网软件的本地端口号">确认科学上网软件的本地端口号&lt;/h3>
+&lt;p>一般来讲，如果没有做过更改，SS和SSR使用的本地端口号都是&lt;code>1080&lt;/code>。所以本文的命令中都会使用&lt;code>1080&lt;/code>这个端口号。&lt;/p>
+&lt;h3 id="命令权限问题">命令权限问题⚠&lt;/h3>
+&lt;p>本文中使用的部分命令需要&lt;code>root&lt;/code>权限，如果在&lt;code>root&lt;/code>账户下，则可以直接执行命令；如果是在普通账户下，需要在命令前加上&lt;code>sudo&lt;/code>关键字。&lt;/p>
+&lt;h2 id="apt代理配置">APT代理配置&lt;/h2>
+&lt;blockquote>
+&lt;p>参考：&lt;a href="https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-the-proxy-for-apt-for-ubuntu-18-04/">How to Set the Proxy for APT on Ubuntu 18.04&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>APT是Ubuntu系统内常用的软件包管理器，为APT配置代理之后能够保证一些软件可以正常安装，安装速度通常也会有一定的提升。&lt;/p>
+&lt;p>给APT配置代理的步骤如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ sudo apt install vim
+&lt;span style="color:#75715e"># 该命令是为了安装Vim编辑器，Ubuntu不自带Vim；如果已安装，则可以忽略这一条&lt;/span>
+$ sudo vim /etc/apt/apt.conf.d/proxy.conf
+&lt;span style="color:#75715e"># 此时会创建并打开一个名为proxy.conf的文件，按下I进入编辑模式，输入以下几行&lt;/span>
+Acquire &lt;span style="color:#f92672">{&lt;/span>
+HTTP::proxy &lt;span style="color:#e6db74">&amp;#34;http://HOST_IP:1080&amp;#34;&lt;/span>;
+HTTPS::proxy &lt;span style="color:#e6db74">&amp;#34;http://HOST_IP:1080&amp;#34;&lt;/span>;
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e"># 输入后按下Esc，然后输入:wq，按下回车即可保存退出&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在宿主机上打开SS或者SSR的流量监控，使用&lt;code>apt-get install&lt;/code>命令安装任意一个包，查看下载速度并和宿主机上的流量监控数据进行对照，如果速度接近，即说明代理配置成功。&lt;/p>
+&lt;h2 id="snap代理配置">Snap代理配置&lt;/h2>
+&lt;blockquote>
+&lt;p>参考：&lt;a href="https://blog.shunwww.cn/2019/02/19/yuque/proxy-snap/">使用代理安装 SNAP 包以加速下载&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>Snap也是Ubuntu下使用比较多的一个软件包管理器，而且个人觉得它要比APT更好用，很多流行软件也都支持通过Snap安装，因此如果你在使用Snap时觉得下载速度太慢，那可能也需要为其配置代理。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ systemctl edit snapd
+&lt;span style="color:#75715e"># 此时会打开一个编辑器，直接输入以下内容：&lt;/span>
+&lt;span style="color:#f92672">[&lt;/span>Service&lt;span style="color:#f92672">]&lt;/span>
+Environment&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;http_proxy=HOST_IP:1080&amp;#34;&lt;/span>
+Environment&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https_proxy=HOST_IP:1080&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># 注意在输入上述内容时，小键盘的数字键是不可用的，如果不小心按了小键盘的数字键进入了奇怪的模式，按下Ctrl+C即可取消，然后接着输入即可&lt;/span>
+&lt;span style="color:#75715e"># 输入完成后，按下Ctrl+O，然后回车保存，然后Ctrl+X退出&lt;/span>
+&lt;span style="color:#75715e"># 然后重启Snap后台进程&lt;/span>
+$ systemctl daemon-reload
+$ systemctl restart snapd
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>同样地，使用&lt;code>snap install&lt;/code>安装任意一个包， 对照宿主机的流量监控，查看是否配置成功。&lt;/p>
+&lt;h2 id="git代理配置">Git代理配置&lt;/h2>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">git config --global http.proxy http://HOST_IP:1080
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="ubuntu系统层面的http代理">Ubuntu系统层面的HTTP代理👎&lt;/h2>
+&lt;p>使用Ubuntu时，肯定还会有访问一些网页的需求，例如Google，因此还需要给Ubuntu配置一下系统全局代理，这样才能让浏览器的HTTP和HTTPS请求走代理。&lt;/p>
+&lt;p>这一步使用图形界面或者命令行都可以做，这里各自说一下。&lt;/p>
+&lt;h3 id="图形界面">图形界面&lt;/h3>
+&lt;p>打开《设置/Settings》➡《网络/Network》➡《代理/Network Proxy》，按照下图所示进行输入，记得将&lt;code>HOST_IP&lt;/code>替换为宿主机的IP：&lt;/p>
+&lt;figure>
+&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20191002133051.png"/>
+&lt;/figure>
+&lt;p>其中&lt;code>Ignore Hosts&lt;/code>中填入以下内容，使局域网IP绕过代理：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">localhost, 127.0.0.0/8, ::1, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16,
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>填好之后直接关闭即可，可打开Firefox或者Chrome浏览器访问Google进行测试。&lt;/p>
+&lt;h3 id="命令行">命令行&lt;/h3>
+&lt;blockquote>
+&lt;p>参考：&lt;a href="https://kifarunix.com/how-to-set-system-wide-proxy-in-ubuntu-18-04/">How to Set System Wide Proxy in Ubuntu 18.04&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>在命令行下，通常是通过设置环境变量来配置代理，执行以下命令即可：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ export http_proxy&lt;span style="color:#f92672">=&lt;/span>http://HOST_IP:1080
+$ export https_proxy&lt;span style="color:#f92672">=&lt;/span>http://HOST_IP:1080
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>但是这种方式只会在当前会话中起作用，如果你是通过XShell连接的Ubuntu，那么关闭会话后该环境变量就会失效；如果是在虚拟机中的Terminal中执行的命令，那么关闭Terminal后就会失效。&lt;/p>
+&lt;p>如果你想为系统永久配置代理，则需要进一步编辑配置文件。然而这里也有两种策略：&lt;/p>
+&lt;ul>
+&lt;li>只为当前用户配置代理&lt;/li>
+&lt;li>为系统的所有用户配置代理（包括root）&lt;/li>
+&lt;/ul>
+&lt;h4 id="只为当前用户配置代理">只为当前用户配置代理&lt;/h4>
+&lt;p>做法是修改当前用户的bash配置，具体操作如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ cd
+&lt;span style="color:#75715e"># 确保位于当前用户的home目录下&lt;/span>
+&lt;span style="color:#75715e"># 将两行命令写入.bashrc文件内&lt;/span>
+$ echo -e &lt;span style="color:#e6db74">&amp;#34;export http_proxy=http://HOST_IP:1080/\nexport https_proxy=https://HOST_IP:1080/&amp;#34;&lt;/span> | tee -a .bashrc
+&lt;span style="color:#75715e"># 该命令不会立即生效，重启shell才能生效；要使它立即生效，可以执行以下命令：&lt;/span>
+$ source .bashrc
+&lt;span style="color:#75715e"># 输入以下命令测试是否成功：&lt;/span>
+$ wget google.com
+--2019-10-01 22:39:42-- http://google.com/
+Connecting to 172.16.171.22:1080... connected.
+Proxy request sent, awaiting response... &lt;span style="color:#ae81ff">301&lt;/span> Moved Permanently
+Location: http://www.google.com/ &lt;span style="color:#f92672">[&lt;/span>following&lt;span style="color:#f92672">]&lt;/span>
+--2019-10-01 22:39:43-- http://www.google.com/
+Connecting to 172.16.171.22:1080... connected.
+Proxy request sent, awaiting response... &lt;span style="color:#ae81ff">200&lt;/span> OK
+Length: unspecified &lt;span style="color:#f92672">[&lt;/span>text/html&lt;span style="color:#f92672">]&lt;/span>
+Saving to: ‘index.html’
+index.html &lt;span style="color:#f92672">[&lt;/span> &amp;lt;&lt;span style="color:#f92672">=&lt;/span>&amp;gt; &lt;span style="color:#f92672">]&lt;/span> 11.47K --.-KB/s in 0s
+2019-10-01 22:39:43 &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#ae81ff">233&lt;/span> MB/s&lt;span style="color:#f92672">)&lt;/span> - ‘index.html’ saved &lt;span style="color:#f92672">[&lt;/span>11746&lt;span style="color:#f92672">]&lt;/span>
+&lt;span style="color:#75715e"># 出现类似以上的信息即说明配置成功&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="为系统所有用户配置代理">为系统所有用户配置代理&lt;/h4>
+&lt;p>如果你尝试了刚刚说的方法，会发现在当前的普通用户下的网络访问是可以走代理的，但是如果切换到&lt;code>root&lt;/code>账号，再执行&lt;code>wget google.com&lt;/code>，就会发现连接不上，这是因为刚刚修改的&lt;code>.bashrc&lt;/code>文件是属于那个普通账户的，也只会对那个普通用户的bash命令行起作用，其他用户的网络访问则不走代理。&lt;/p>
+&lt;p>想要一次性为系统的所有用户配置代理，需要修改&lt;code>/etc/environment&lt;/code>文件：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ echo -e &lt;span style="color:#e6db74">&amp;#34;http_proxy=http://HOST_IP:1080/\nhttps_proxy=https://HOST_IP:1080/&amp;#34;&lt;/span> | sudo tee -a /etc/environment
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这种配置方法在重新登录后才会生效。&lt;/p>
+- https://libre.fun/posts/vmware-ubuntu-proxy-configure/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>Libre's Blog https://libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ -&lt;h3 id="问题原因">问题原因&lt;/h3>
+&lt;p>在安装CentOS 7.6系统时，图形安装界面的部分有一个配置网络的选项，进去之后可以开启网卡，而Minimal Installation默认是不开启网卡的，因此如果在安装系统时没有打开网卡，进入系统之后会发现无法联网，所有和网络有关的操作都会报错。&lt;/p>
+&lt;h3 id="解决方法">解决方法&lt;/h3>
+&lt;p>首先通过命令&lt;code>nmcli d&lt;/code>查看网卡启用状态：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#f92672">[&lt;/span>libre@localhost ~&lt;span style="color:#f92672">]&lt;/span>$ nmcli d
+DEVICE TYPE STATE CONNECTION
+ens33 ethernet disconnected --
+lo loopback unmanaged --
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>发现网卡的确是未启用。然后编辑文件&lt;code>/etc/sysconfig/network-scripts/ifcfg-ens&amp;lt;num&amp;gt;&lt;/code>，这个地方的&lt;code>&amp;lt;num&amp;gt;&lt;/code>每台机器可能会不一样，使用Tab自动补全即可。&lt;/p>
+&lt;p>打开该文件后将最后一行的&lt;code>ONBOOT=NO&lt;/code>改为&lt;code>ONBOOT=YES&lt;/code>，然后保存退出，再通过以下命令重启网络：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">service network restart
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>此时再查看网卡状态：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#f92672">[&lt;/span>libre@localhost ~&lt;span style="color:#f92672">]&lt;/span>$ nmcli d
+DEVICE TYPE STATE CONNECTION
+ens33 ethernet connected ens33
+lo loopback unmanaged --
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>搞定。&lt;/p>
+- https://libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item></channel></rss>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Libre's Blog</title><link>https://libre.fun/posts/</link><description>Recent content in Posts on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Tue, 29 Oct 2019 12:50:09 +0800</lastBuildDate><atom:link href="https://libre.fun/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>什么是WSL WSL中文全称为《适用于 Linux 的 Windows 子系统》（Windows Subsystem for Linux），是一个为在Windows 10和Windows Server 2019上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。
+WSL相比于VMware等虚拟机解决方案更加轻量，启动速度更快，但代价是阉割了一些Linux系统的功能，例如systemd、Ubuntu中的snapd等（截止本文写作时）。但是对于一般Linux用户的使用是足够的。
+WSL的启用 在默认设置下，WSL是被关闭的，因此，首先需要在系统中开启WSL，有以下两种方式：
+通过图形界面启用WSL Windows《设置》➡《应用》➡右侧《程序和功能》➡《启用或关闭Windows功能》➡勾选《适用于 Linux 的 Windows 子系统》
+确定之后重启系统。
+通过命令行启用WSL 开始菜单按钮单击右键➡《Windows Powershell （管理员）》，打开Powershell后运行以下命令：
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux 开始下载相关数据，下载完成后输入《yes》重启系统。
+WSL的安装 在Windows中启用WSL之后，就可以安装你想使用的Linux发行版了，然而，这也要官方提供了相应的安装包才行。
+安装WSL同样有两种方式，一种是通过Microsoft Store安装，另一种是下载相应的应用包之后手动安装。鉴于Microsoft Store在网络方面的表现非常不稳定，推荐手动安装。
+手动安装👍 因为一些其他的原因，我之前就卸载了Microsoft Store，所以这里选择手动安装。根据官方文档，首先下载Ubuntu 18.04的Appx包，方便起见，将其重命名为ubuntu18.04.Appx：
+假设下载好的包位于D:\Download文件夹下，打开Powershell，运行以下命令即可安装：
+cd D:\Download Add-AppxPackage .\ubuntu18.04.Appx 通过Microsoft Store安装👎 进入Microsoft Store，搜索《Linux》，会出现官方提供的安装包，如下图所示（电脑上卸载了Microsoft Store，所以用网页版的截图代替一下）：
+选择你想要的版本进行安装，我这里选择了Ubuntu 18.04 LTS。
+WSL的运行 安装好之后就可以进入系统了，同样地，可以通过在CMD或则Powershell输入ubuntu1804.exe直接在当前窗口进入WSL Ubuntu，也可以在开始菜单中找到新添加的Ubuntu 18.04打开。
+安装之后初次运行需要一些初始化的时间，需要等待一下。WSL默认有一个root用户，但初次运行通常会要求你添加一个新用户，按照提示输入用户名和密码即可，该用户会被自动成为sudoer。如遇到提示《Permission Denied》或需要以root身份运行某些命令时，在命令前加上sudo即可。
+Troubleshooting WSL如何重启 参考：Rebooting Ubuntu on Windows without rebooting Windows?</description></item><item><title>WSL 设置开机启动项</title><link>https://libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://libre.fun/posts/setup-startup-in-wsl/</guid><description>在 WSL Ubuntu的安装和Troubleshooting 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是systemd的阉割，使得不能方便地通过systemctl enable &amp;lt;service_name&amp;gt;来把一个服务加入开机启动项内。
+但是对于大部分使用WSL的人而言，无论是出于刚性需求（例如在WSL中运行一个Web服务器）、还是使用方便（随时通过SSH连接到WSL），都可能需要在WSL中加入开机启动项。具体方法如下所述。
+本文以ssh服务为例，该服务在WSL Ubuntu 18.04 LTS发行版中自带，但不会开机启动。
+在WSL中写好启动项脚本 echo -e &amp;#34;#! /bin/bash\n/etc/init.d/ssh start&amp;#34; | tee -a /etc/init.wsl chmod +x /etc/init.wsl echo &amp;#34;%sudo ALL=(ALL) NOPASSWD: /etc/init.wsl&amp;#34; | tee -a /etc/sudoers 上面的命令做了三件事：
+在/etc目录下生成名为init.wsl的文件，并向其中写入以下两行内容：
+#! /bin/bash /etc/init.d/ssh start 第一行向系统声明该脚本需要/bin/bash来执行，第二行则是执行ssh的启动脚本。
+如果你有其他服务需要开机启动，使用vim编辑/etc/init.wsl，并将下面命令中的&amp;lt;service_name&amp;gt;替换成需要的服务名即可，该服务需要在/etc/init.d目录下存在：
+/etc/init.d/&amp;lt;service_name&amp;gt; start 赋予/etc/init.wsl脚本可执行权限
+在/etc/sudoers文件中声明：执行/etc/init.wsl脚本不需要输入密码
+在Windows中添加开机启动脚本 由于WSL说到底还是Windows内置的一个“服务”，或者说是“组件”，因此对它的一些操作还是免不了要从Windows本身进行。
+按下《Win + R》，输入shell:startup后回车，打开启动项文件夹。新建一个名为WhateverYouLike.vbs的文件，并使用记事本或者VSCode打开它，输入以下内容：
+Set ws = CreateObject(&amp;quot;Wscript.Shell&amp;quot;) ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;quot;&amp;quot;, vbhide 我对VB脚本语言不太了解，但是大概能理解这两句的含义。
+第一句创建了一个可以执行命令的对象，命名为ws；第二句调用了该对象的run方法，执行了一句windows内的命令：</description></item><item><title>虚拟机 Ubuntu 18.04.3 代理配置</title><link>https://libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>由于国内的网络问题，无论是物理机还是虚拟机安装Linux系统之后，总会遇到各种各样跟网络相关的问题，例如Ubuntu下APT源、Snap源访问速度慢、Git Clone速度慢，或者需要在浏览器中访问被墙的网站等等，因此使用代理（科学上网）是不得不采取的手段。
+本文主要阐述在虚拟机中安装Ubuntu后一些配置代理的方法，包括APT的代理、Snap的代理、Git的代理、命令行的代理以及Ubuntu系统层面的HTTP代理。
+准备工作 使用VMware安装Ubuntu 18.04.3系统 略。该步骤请读者自行完成。
+确认虚拟机使用NAT模式连接网络 打开VMware，右键点击左侧《库》面板中安装好的虚拟机，进入《网络适配器》查看网络连接模式，将其设置为《NAT模式》，如下图所示
+宿主机科学上网工具的准备❗ 宿主机（即安装VMware的主机）上需要一定的科学上网工具，例如SSR或者SS。科学上网工具的安装与使用超出了本文的范畴。
+在SS或者SSR中，需要打开“允许来自局域网的连接”(SSR-windows 4.9.2)或者“允许其他设备连入”(SS-windows 4.1.7)等类似的选项。该选项的名称可能会根据科学上网工具版本的不同而有细微的差别
+在宿主机上安装XShell （可选） XShell是一个用于SSH连接到主机的工具，这里推荐安装和使用。如果没有使用过这类工具的用户可以略过。
+查看宿主机IP地址 以Windows为例，按下《Win+R》，输入cmd并按下回车，打开Windows命令提示符。
+输入ipconfig，在《以太网适配器 以太网》中查看IPv4地址，通常以172.16/17/18或者192.168开头。
+将该IP地址记为HOST_IP，后文中将始终使用HOST_IP来代替真实的宿主机IP地址。读者在使用时请替换成自己宿主机的IP地址。
+确认科学上网软件的本地端口号 一般来讲，如果没有做过更改，SS和SSR使用的本地端口号都是1080。所以本文的命令中都会使用1080这个端口号。
+命令权限问题⚠ 本文中使用的部分命令需要root权限，如果在root账户下，则可以直接执行命令；如果是在普通账户下，需要在命令前加上sudo关键字。
+APT代理配置 参考：How to Set the Proxy for APT on Ubuntu 18.04
+APT是Ubuntu系统内常用的软件包管理器，为APT配置代理之后能够保证一些软件可以正常安装，安装速度通常也会有一定的提升。
+给APT配置代理的步骤如下：
+$ sudo apt install vim # 该命令是为了安装Vim编辑器，Ubuntu不自带Vim；如果已安装，则可以忽略这一条 $ sudo vim /etc/apt/apt.conf.d/proxy.conf # 此时会创建并打开一个名为proxy.conf的文件，按下I进入编辑模式，输入以下几行 Acquire { HTTP::proxy &amp;#34;http://HOST_IP:1080&amp;#34;; HTTPS::proxy &amp;#34;http://HOST_IP:1080&amp;#34;; } # 输入后按下Esc，然后输入:wq，按下回车即可保存退出 在宿主机上打开SS或者SSR的流量监控，使用apt-get install命令安装任意一个包，查看下载速度并和宿主机上的流量监控数据进行对照，如果速度接近，即说明代理配置成功。
+Snap代理配置 参考：使用代理安装 SNAP 包以加速下载</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>问题原因 在安装CentOS 7.6系统时，图形安装界面的部分有一个配置网络的选项，进去之后可以开启网卡，而Minimal Installation默认是不开启网卡的，因此如果在安装系统时没有打开网卡，进入系统之后会发现无法联网，所有和网络有关的操作都会报错。
+解决方法 首先通过命令nmcli d查看网卡启用状态：
+[libre@localhost ~]$ nmcli d DEVICE TYPE STATE CONNECTION ens33 ethernet disconnected -- lo loopback unmanaged -- 发现网卡的确是未启用。然后编辑文件/etc/sysconfig/network-scripts/ifcfg-ens&amp;lt;num&amp;gt;，这个地方的&amp;lt;num&amp;gt;每台机器可能会不一样，使用Tab自动补全即可。
+打开该文件后将最后一行的ONBOOT=NO改为ONBOOT=YES，然后保存退出，再通过以下命令重启网络：
+service network restart 此时再查看网卡状态：
+[libre@localhost ~]$ nmcli d DEVICE TYPE STATE CONNECTION ens33 ethernet connected ens33 lo loopback unmanaged -- 搞定。</description></item></channel></rss>
