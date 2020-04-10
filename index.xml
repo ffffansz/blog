@@ -56,7 +56,7 @@ net start LxssManager
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">service ssh status
 service ssh start
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认设置下，WSL中的&lt;code>ssh&lt;/code>服务不会开机启动。如果你是习惯使用XShell等工具连接到Linux主机，或是想要使用VSCode远程插件来使用WSL进行开发，那么你可能希望随时能够通过SSH连接到WSL，无须额外的手动操作。&lt;/p>
-&lt;p>我把在WSL中设置开机启动项的方法写在了&lt;a href="https://www.libre.fun/posts/setup-startup-in-WSL">这篇文章&lt;/a>中。&lt;/p>
+&lt;p>我把在WSL中设置开机启动项的方法写在了&lt;a href="https://www.libre.fun/posts/setup-startup-in-wsl/">这篇文章&lt;/a>中。&lt;/p>
 &lt;h4 id="确认ssh-host-key正确存在">确认SSH Host Key正确存在&lt;/h4>
 &lt;p>通过&lt;code>service ssh start&lt;/code>启动&lt;code>sshd&lt;/code>服务时，可能会出现如下提示：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ sudo service ssh start
@@ -80,7 +80,7 @@ PermitEmptyPasswords yes
 &lt;pre>&lt;code class="language-shel" data-lang="shel">Port 10022
 &lt;/code>&lt;/pre>&lt;p>该问题我自己没有遇到，但是对于某些安装了SSH服务的Windows主机来说可能会出现，因为Windows首先要确保主系统的SSH（默认也是开放在22端口）正常工作，因此可能会对WSL中运行在22端口的SSH产生干扰。&lt;/p>
 &lt;p>这里记录下来，以备后用。&lt;/p>
-- https://www.libre.fun/posts/install-wsl-and-troubleshooting/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://www.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://www.libre.fun/posts/setup-startup-in-wsl/ -&lt;p>在 &lt;a href="https://www.libre.fun/posts/install-WSL-and-Troubleshooting">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
+- https://www.libre.fun/posts/install-wsl-and-troubleshooting/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://www.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://www.libre.fun/posts/setup-startup-in-wsl/ -&lt;p>在 &lt;a href="https://www.libre.fun/posts/install-wsl-and-troubleshooting/">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
 &lt;p>但是对于大部分使用WSL的人而言，无论是出于刚性需求（例如在WSL中运行一个Web服务器）、还是使用方便（随时通过SSH连接到WSL），都可能需要在WSL中加入开机启动项。具体方法如下所述。&lt;/p>
 &lt;p>本文阐述如何让一个WSL中的服务能够随Windows开机启动。以&lt;code>ssh&lt;/code>服务为例，该服务在WSL Ubuntu 18.04 LTS发行版中自带，但安装好后不会开机启动。&lt;/p>
 &lt;h2 id="在wsl中写好启动项脚本">在WSL中写好启动项脚本&lt;/h2>
