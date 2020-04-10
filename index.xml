@@ -133,10 +133,10 @@ ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;qu
 &lt;li>&lt;code>repository&lt;/code>表示的是具有某个功能的Docker镜像的所有迭代版本构成的镜像组，例如&lt;code>ubuntu&lt;/code>，其含义是包括Ubuntu 18.04、Ubuntu 16.04、Ubuntu 14.04等一系列镜像在内的镜像组&lt;/li>
 &lt;li>&lt;code>tag&lt;/code>用于指出&lt;code>repository&lt;/code>中具体的某个镜像，例如&lt;code>ubuntu:latest&lt;/code>，意为指定该镜像库中最新版的Ubuntu镜像；再例如&lt;code>ubuntu:16.04&lt;/code>，意为指定版本号为16.04的Ubuntu镜像。&lt;/li>
 &lt;/ul>
-&lt;blockquote class="alert alert-note">
+&lt;blockquote class="my-alert my-alert-note">
 &lt;p>但是对于一条&lt;code>docker pull ubuntu&lt;/code>命令来说，并不是拉取了整个镜像组，而是会使用一个默认的&lt;code>tag&lt;/code>，即&lt;code>latest&lt;/code>&lt;/p>
 &lt;/blockquote>
-&lt;blockquote class="alert alert-warning">
+&lt;blockquote class="my-alert my-alert-warning">
 &lt;p>&lt;p>不要混淆镜像库和镜像组的概念：&lt;/p>
 &lt;p>镜像库：默认为&lt;code>library&lt;/code>或由&lt;code>username&lt;/code>指定，是Docker官方或某用户提供的若干（不一定相关的）镜像组的集合；&lt;/p>
 &lt;p>镜像组：由&lt;code>repository&lt;/code>，一般某个特定功能的镜像的若干迭代版本组成，每个迭代版本通常可以由一个标签指定，如上面举的&lt;code>ubuntu&lt;/code>的例子；&lt;/p>
@@ -186,7 +186,7 @@ VERSION&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">
 &lt;/ul>
 &lt;p>进入容器后默认是以&lt;code>root&lt;/code>身份，此时可以像在常规Ubuntu系统中那样执行Shell命令，这里我们查看了一下系统信息。&lt;/p>
 &lt;p>最后可以通过按下&lt;code>Ctrl+D&lt;/code>（退出当前会话）或输入&lt;code>exit&lt;/code>退出容器。&lt;/p>
-&lt;blockquote class="alert alert-note">
+&lt;blockquote class="my-alert my-alert-note">
 &lt;p>事实上，此时按下 &lt;code>Ctrl+D&lt;/code> 或输入&lt;code>exit&lt;/code>是退出了&lt;code>bash&lt;/code>，并不等同于直接退出容器。真正导致容器退出的原因是该容器的主进程，即&lt;code>bash&lt;/code>退出了，主进程退出了，容器再无存在的必要，因此也随之退出了。&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="查看本地镜像">查看本地镜像&lt;/h2>
