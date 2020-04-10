@@ -1,16 +1,15 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Libre's Blog</title><link>https://www.libre.fun/</link><description>Recent content on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><atom:link href="https://www.libre.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>Libre's Blog https://www.libre.fun/posts/install-wsl-and-troubleshooting/ -&lt;!-- raw HTML omitted -->
-&lt;h2 id="什么是wsl">什么是WSL&lt;/h2>
-&lt;p>WSL中文全称为《适用于 Linux 的 Windows 子系统》（Windows Subsystem for Linux），是一个为在Windows 10和Windows Server 2019上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Libre's Blog</title><link>https://www.libre.fun/</link><description>Recent content on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><atom:link href="https://www.libre.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>Libre's Blog https://www.libre.fun/posts/install-wsl-and-troubleshooting/ -&lt;h2 id="什么是wsl">什么是WSL&lt;/h2>
+&lt;p>WSL中文全称为「适用于 Linux 的 Windows 子系统」（Windows Subsystem for Linux），是一个为在Windows 10和Windows Server 2019上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。&lt;/p>
 &lt;p>WSL相比于VMware等虚拟机解决方案更加轻量，启动速度更快，但代价是阉割了一些Linux系统的功能，例如&lt;code>systemd&lt;/code>、Ubuntu中的&lt;code>snapd&lt;/code>等（截止本文写作时）。但是对于一般Linux用户的使用是足够的。&lt;/p>
 &lt;h2 id="wsl的启用">WSL的启用&lt;/h2>
 &lt;p>在默认设置下，WSL是被关闭的，因此，首先需要在系统中开启WSL，有以下两种方式：&lt;/p>
 &lt;h3 id="通过图形界面启用wsl">通过图形界面启用WSL&lt;/h3>
-&lt;p>Windows《设置》➡《应用》➡右侧《程序和功能》➡《启用或关闭Windows功能》➡勾选《适用于 Linux 的 Windows 子系统》&lt;/p>
+&lt;p>Windows「设置」➡「应用」➡右侧「程序和功能」➡「启用或关闭Windows功能」➡勾选「适用于 Linux 的 Windows 子系统」&lt;/p>
 &lt;p>确定之后重启系统。&lt;/p>
 &lt;h3 id="通过命令行启用wsl">通过命令行启用WSL&lt;/h3>
-&lt;p>开始菜单按钮单击右键➡《Windows Powershell （管理员）》，打开Powershell后运行以下命令：&lt;/p>
+&lt;p>开始菜单按钮单击右键➡「Windows Powershell （管理员）」，打开Powershell后运行以下命令：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>开始下载相关数据，下载完成后输入《yes》重启系统。&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>开始下载相关数据，下载完成后输入「yes」重启系统。&lt;/p>
 &lt;h2 id="wsl的安装">WSL的安装&lt;/h2>
 &lt;p>在Windows中启用WSL之后，就可以安装你想使用的Linux发行版了，然而，这也要官方提供了相应的安装包才行。&lt;/p>
 &lt;p>安装WSL同样有两种方式，一种是通过Microsoft Store安装，另一种是下载相应的应用包之后手动安装。鉴于Microsoft Store在网络方面的表现非常不稳定，推荐手动安装。&lt;/p>
@@ -23,14 +22,14 @@
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\Download
 Add-AppxPackage .\ubuntu18.04.Appx
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="通过microsoft-store安装">通过Microsoft Store安装👎&lt;/h3>
-&lt;p>进入Microsoft Store，搜索《Linux》，会出现官方提供的安装包，如下图所示（电脑上卸载了Microsoft Store，所以用网页版的截图代替一下）：&lt;/p>
+&lt;p>进入Microsoft Store，搜索「Linux」，会出现官方提供的安装包，如下图所示（电脑上卸载了Microsoft Store，所以用网页版的截图代替一下）：&lt;/p>
 &lt;figure>
 &lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20191029131346.png"/>
 &lt;/figure>
 &lt;p>选择你想要的版本进行安装，我这里选择了Ubuntu 18.04 LTS。&lt;/p>
 &lt;h2 id="wsl的运行">WSL的运行&lt;/h2>
 &lt;p>安装好之后就可以进入系统了，同样地，可以通过在CMD或则Powershell输入&lt;code>ubuntu1804.exe&lt;/code>直接在当前窗口进入WSL Ubuntu，也可以在开始菜单中找到新添加的&lt;code>Ubuntu 18.04&lt;/code>打开。&lt;/p>
-&lt;p>安装之后初次运行需要一些初始化的时间，需要等待一下。WSL默认有一个&lt;code>root&lt;/code>用户，但初次运行通常会要求你添加一个新用户，按照提示输入用户名和密码即可，该用户会被自动成为&lt;code>sudoer&lt;/code>。如遇到提示《Permission Denied》或需要以&lt;code>root&lt;/code>身份运行某些命令时，在命令前加上&lt;code>sudo&lt;/code>即可。&lt;/p>
+&lt;p>安装之后初次运行需要一些初始化的时间，需要等待一下。WSL默认有一个&lt;code>root&lt;/code>用户，但初次运行通常会要求你添加一个新用户，按照提示输入用户名和密码即可，该用户会被自动成为&lt;code>sudoer&lt;/code>。如遇到提示「Permission Denied」或需要以&lt;code>root&lt;/code>身份运行某些命令时，在命令前加上&lt;code>sudo&lt;/code>即可。&lt;/p>
 &lt;h2 id="troubleshooting">Troubleshooting&lt;/h2>
 &lt;h3 id="wsl如何重启">WSL如何重启&lt;/h3>
 &lt;blockquote>
@@ -50,15 +49,14 @@ net start LxssManager
 &lt;h4 id="确认wsl已经启动">确认WSL已经启动&lt;/h4>
 &lt;p>在Windows中启动过一次WSL之后，在下次重启Windows系统之前，WSL都会一直在后台运行。但是一旦重启了Windows系统，就必须先启动WSL。&lt;/p>
 &lt;p>如果想要WSL随Windows一起启动，可以将其写进计划任务里，通过以下命令即可让WSL开机启动：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-c" data-lang="c"> powershell.exe &lt;span style="color:#f92672">-&lt;/span>WindowStyle Hidden &lt;span style="color:#f92672">-&lt;/span>c &lt;span style="color:#f92672">&amp;lt;&lt;/span>wsl&lt;span style="color:#f92672">-&lt;/span>name&lt;span style="color:#f92672">&amp;gt;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>
-&lt;p>其中&lt;code>&amp;lt;wsl-name&amp;gt;&lt;/code>需要替换成你安装的WSL发行版启动程序名称，在本文中为&lt;code>ubuntu1804.exe&lt;/code>。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">powershell.exe -WindowStyle Hidden -c &amp;lt;wsl-name&amp;gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中&lt;code>&amp;lt;wsl-name&amp;gt;&lt;/code>需要替换成你安装的WSL发行版启动程序名称，在本文中为&lt;code>ubuntu1804.exe&lt;/code>。&lt;/p>
 &lt;h4 id="确认wsl中的ssh后台进程已经启动">确认WSL中的&lt;code>ssh&lt;/code>后台进程已经启动&lt;/h4>
 &lt;p>可通过以下命令查看和启动：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ service ssh status
-$ service ssh start
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>默认设置下，WSL中的&lt;code>ssh&lt;/code>服务不会开机启动。如果你是一个习惯使用XShell等工具连接到Linux主机，或是想要使用VSCode远程插件来使用WSL进行开发，那么你可能希望随时能够通过SSH连接到WSL，无须额外的手动操作。&lt;/p>
-&lt;p>我把在WSL中设置开机启动项的方法写在了&lt;a href="">这篇文章#TODO&lt;/a>中。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">service ssh status
+service ssh start
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>默认设置下，WSL中的&lt;code>ssh&lt;/code>服务不会开机启动。如果你是习惯使用XShell等工具连接到Linux主机，或是想要使用VSCode远程插件来使用WSL进行开发，那么你可能希望随时能够通过SSH连接到WSL，无须额外的手动操作。&lt;/p>
+&lt;p>我把在WSL中设置开机启动项的方法写在了&lt;a href="https://www.libre.fun/posts/setup-startup-in-WSL">这篇文章&lt;/a>中。&lt;/p>
 &lt;h4 id="确认ssh-host-key正确存在">确认SSH Host Key正确存在&lt;/h4>
 &lt;p>通过&lt;code>service ssh start&lt;/code>启动&lt;code>sshd&lt;/code>服务时，可能会出现如下提示：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ sudo service ssh start
@@ -66,27 +64,26 @@ $ service ssh start
 Could not load host key: /etc/ssh/ssh_host_ecdsa_key
 Could not load host key: /etc/ssh/ssh_host_ed25519_key &lt;span style="color:#f92672">[&lt;/span> OK &lt;span style="color:#f92672">]&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>这是因为&lt;code>ssh&lt;/code>没有生成对应的主机密钥，一般来讲在安装&lt;code>ssh&lt;/code>时会自动生成，但是大概是WSL把这一部分阉割到了，我们可以通过以下命令来手动生成：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
-$ ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key
-$ ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key
+ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>之后通过&lt;code>service ssh --full-restart&lt;/code>重启服务。&lt;/p>
 &lt;h4 id="sshd_config配置正确">&lt;code>sshd_config&lt;/code>配置正确&lt;/h4>
 &lt;p>WSL自带的&lt;code>sshd&lt;/code>的配置中有很多导致不能登录成功的地方，通过以下命令打开&lt;code>sshd_config&lt;/code>进行查看和修改：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ vim /etc/ssh/sshd_config
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">vim /etc/ssh/sshd_config
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>确认以下几个选项没有没注释且你的&lt;code>sshd_config&lt;/code>中对应选项的值和这里是一样的：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">PasswordAuthentication yes
 PermitEmptyPasswords yes
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>保存退出，&lt;code>service ssh restart&lt;/code>重启服务。&lt;/p>
 &lt;h4 id="wsl中的ssh端口问题">WSL中的SSH端口问题&lt;/h4>
-&lt;p>在摸索的过程中，我发现在StackOverflow论坛上有人遇到了一个非常有意思的问题：当WSL的SSH端口为22时，无法连接，修改为其他端口号才可以，例如10022。修改方法也很简单，在&lt;code>sshd_config&lt;/code>中，查看和修改以下选项的值，确认未被注释：&lt;/p>
+&lt;p>在摸索的过程中，我发现在StackOverflow论坛上，有人遇到了一个非常有意思的问题：当WSL的SSH端口为22时，无法连接，修改为其他端口号才可以，例如10022。修改方法也很简单，在&lt;code>sshd_config&lt;/code>中，查看和修改以下选项的值，确认未被注释：&lt;/p>
 &lt;pre>&lt;code class="language-shel" data-lang="shel">Port 10022
 &lt;/code>&lt;/pre>&lt;p>该问题我自己没有遇到，但是对于某些安装了SSH服务的Windows主机来说可能会出现，因为Windows首先要确保主系统的SSH（默认也是开放在22端口）正常工作，因此可能会对WSL中运行在22端口的SSH产生干扰。&lt;/p>
 &lt;p>这里记录下来，以备后用。&lt;/p>
-- https://www.libre.fun/posts/install-wsl-and-troubleshooting/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://www.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://www.libre.fun/posts/setup-startup-in-wsl/ -&lt;!-- raw HTML omitted -->
-&lt;p>在 &lt;a href="#TODO">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
+- https://www.libre.fun/posts/install-wsl-and-troubleshooting/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://www.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://www.libre.fun/posts/setup-startup-in-wsl/ -&lt;p>在 &lt;a href="https://www.libre.fun/posts/install-WSL-and-Troubleshooting">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
 &lt;p>但是对于大部分使用WSL的人而言，无论是出于刚性需求（例如在WSL中运行一个Web服务器）、还是使用方便（随时通过SSH连接到WSL），都可能需要在WSL中加入开机启动项。具体方法如下所述。&lt;/p>
-&lt;p>本文以&lt;code>ssh&lt;/code>服务为例，该服务在WSL Ubuntu 18.04 LTS发行版中自带，但不会开机启动。&lt;/p>
-&lt;h3 id="在wsl中写好启动项脚本">在WSL中写好启动项脚本&lt;/h3>
+&lt;p>本文阐述如何让一个WSL中的服务能够随Windows开机启动。以&lt;code>ssh&lt;/code>服务为例，该服务在WSL Ubuntu 18.04 LTS发行版中自带，但安装好后不会开机启动。&lt;/p>
+&lt;h2 id="在wsl中写好启动项脚本">在WSL中写好启动项脚本&lt;/h2>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">echo -e &lt;span style="color:#e6db74">&amp;#34;#! /bin/bash\n/etc/init.d/ssh start&amp;#34;&lt;/span> | tee -a /etc/init.wsl
 chmod +x /etc/init.wsl
 echo &lt;span style="color:#e6db74">&amp;#34;%sudo ALL=(ALL) NOPASSWD: /etc/init.wsl&amp;#34;&lt;/span> | tee -a /etc/sudoers
@@ -107,9 +104,9 @@ echo &lt;span style="color:#e6db74">&amp;#34;%sudo ALL=(ALL) NOPASSWD: /etc/init
 &lt;p>在&lt;code>/etc/sudoers&lt;/code>文件中声明：执行&lt;code>/etc/init.wsl&lt;/code>脚本不需要输入密码&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="在windows中添加开机启动脚本">在Windows中添加开机启动脚本&lt;/h3>
+&lt;h2 id="在windows中添加开机启动脚本">在Windows中添加开机启动脚本&lt;/h2>
 &lt;p>由于WSL说到底还是Windows内置的一个“服务”，或者说是“组件”，因此对它的一些操作还是免不了要从Windows本身进行。&lt;/p>
-&lt;p>按下《Win + R》，输入&lt;code>shell:startup&lt;/code>后回车，打开启动项文件夹。新建一个名为&lt;code>WhateverYouLike.vbs&lt;/code>的文件，并使用记事本或者VSCode打开它，输入以下内容：&lt;/p>
+&lt;p>按下「Win + R」，输入&lt;code>shell:startup&lt;/code>后回车，打开启动项文件夹。新建一个名为&lt;code>WhateverYouLike.vbs&lt;/code>的文件，并使用记事本或者VSCode打开它，输入以下内容：&lt;/p>
 &lt;pre>&lt;code class="language-vbscript" data-lang="vbscript">Set ws = CreateObject(&amp;quot;Wscript.Shell&amp;quot;)
 ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;quot;&amp;quot;, vbhide
 &lt;/code>&lt;/pre>&lt;p>我对VB脚本语言不太了解，但是大概能理解这两句的含义。&lt;/p>
@@ -117,28 +114,161 @@ ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;qu
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">bash -c &lt;span style="color:#e6db74">&amp;#34;sudo /etc/init.wsl&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>末尾传递的参数&lt;code>vbhide&lt;/code>是表示在后台执行该脚本。&lt;/p>
 &lt;p>最后提一句，可以看到&lt;code>ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;quot;&amp;quot;, vbhide&lt;/code>中有很多个双引号，看得人眼花缭乱，但这实际上是由于VBScript的转义字符规则所导致，实在谈不上美观。&lt;/p>
-- https://www.libre.fun/posts/setup-startup-in-wsl/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>虚拟机 Ubuntu 18.04.3 代理配置</title><link>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>Libre's Blog https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/ -&lt;p>由于国内的网络问题，无论是物理机还是虚拟机安装Linux系统之后，总会遇到各种各样跟网络相关的问题，例如Ubuntu下APT源、Snap源访问速度慢、Git Clone速度慢，或者需要在浏览器中访问被墙的网站等等，因此使用代理（科学上网）是不得不采取的手段。&lt;/p>
-&lt;p>本文主要阐述在&lt;strong>虚拟机&lt;/strong>中安装Ubuntu后一些配置代理的方法，包括APT的代理、Snap的代理、Git的代理、命令行的代理以及Ubuntu系统层面的HTTP代理。&lt;/p>
+- https://www.libre.fun/posts/setup-startup-in-wsl/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>Docker 入门：镜像</title><link>https://www.libre.fun/posts/introduction-to-docker-image/</link><pubDate>Mon, 28 Oct 2019 10:58:00 +0800</pubDate><guid>https://www.libre.fun/posts/introduction-to-docker-image/</guid><description>Libre's Blog https://www.libre.fun/posts/introduction-to-docker-image/ -&lt;blockquote>
+&lt;p>参考：&lt;a href="https://yeasy.gitbooks.io/docker_practice/image/">Docker — 从入门到实践&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="镜像的基本原理">镜像的基本原理&lt;/h2>
+&lt;p>OS分为内核和用户空间。对于Linux而言，内核启动后， 会挂载 &lt;code>root&lt;/code> 文件系统为其提供用户空间支持。而 Docker 镜像（Image），就相当于是一个 &lt;code>root&lt;/code> 文件系统。比如官方镜像 &lt;code>ubuntu:18.04&lt;/code> 就包含了完整的一套 Ubuntu 18.04 最小系统的 &lt;code>root&lt;/code> 文件系统。&lt;/p>
+&lt;p>Docker中的镜像利用Union FS技术，被设计为分层存储的架构，由多层文件系统联合组成。&lt;/p>
+&lt;p>镜像在构建时，会一层层构建，前一层是后一层的基础。 每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。&lt;/p>
+&lt;p>分层存储的特征使得镜像的复用、定制变的更为容易。可以用之前构建好的镜像作为基础层，然后进一步添加新的层，以定制自己所需的内容，构建新的镜像。&lt;/p>
+&lt;h2 id="镜像仓库的相关概念">镜像仓库的相关概念&lt;/h2>
+&lt;p>这里解释一下Docker镜像仓库相关的概念：&lt;/p>
+&lt;p>首先，读者应该知道Linux系统中有软件源的概念，一个软件源提供了若干软件的下载、安装与更新。例如，Ubuntu系统中通过&lt;code>apt install&lt;/code>或者&lt;code>apt-get install&lt;/code>命令从预先配置的软件源中下载和安装软件，CentOS也有类似的&lt;code>yum install&lt;/code>等。&lt;/p>
+&lt;p>在Docker的世界中，这样的「软件源」被称为&lt;strong>registry&lt;/strong>。registry用以保存Docker镜像，其中还包括镜像层次结构和关于镜像的元数据等。由Docker官方维护的registry被称为Docker Hub，用户也可以在自己的服务器上搭建私有的registry。&lt;/p>
+&lt;p>Docker Hub并不是只有Docker官方才可以提供镜像，它类似Github，任何用户都可以创建账号，向Docker Hub上传自己制作的镜像。&lt;/p>
+&lt;p>对于Docker Hub中存储的镜像，可以通过&lt;code>[username/]repository:tag&lt;/code>来唯一指定。&lt;/p>
+&lt;ul>
+&lt;li>如果不提供&lt;code>username&lt;/code>，则会指向Docker官方维护的镜像库，即&lt;code>library&lt;/code>；如果提供了&lt;code>username&lt;/code>，则指向的是该用户的镜像库（相当于账户）&lt;/li>
+&lt;li>&lt;code>repository&lt;/code>表示的是具有某个功能的Docker镜像的所有迭代版本构成的镜像组，例如&lt;code>ubuntu&lt;/code>，其含义是包括Ubuntu 18.04、Ubuntu 16.04、Ubuntu 14.04等一系列镜像在内的镜像组&lt;/li>
+&lt;li>&lt;code>tag&lt;/code>用于指出&lt;code>repository&lt;/code>中具体的某个镜像，例如&lt;code>ubuntu:latest&lt;/code>，意为指定该镜像库中最新版的Ubuntu镜像；再例如&lt;code>ubuntu:16.04&lt;/code>，意为指定版本号为16.04的Ubuntu镜像。&lt;/li>
+&lt;/ul>
+&lt;blockquote class="alert alert-note">
+&lt;p>但是对于一条&lt;code>docker pull ubuntu&lt;/code>命令来说，并不是拉取了整个镜像组，而是会使用一个默认的&lt;code>tag&lt;/code>，即&lt;code>latest&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote class="alert alert-warning">
+&lt;p>&lt;p>不要混淆镜像库和镜像组的概念：&lt;/p>
+&lt;p>镜像库：默认为&lt;code>library&lt;/code>或由&lt;code>username&lt;/code>指定，是Docker官方或某用户提供的若干（不一定相关的）镜像组的集合；&lt;/p>
+&lt;p>镜像组：由&lt;code>repository&lt;/code>，一般某个特定功能的镜像的若干迭代版本组成，每个迭代版本通常可以由一个标签指定，如上面举的&lt;code>ubuntu&lt;/code>的例子；&lt;/p>
+&lt;p>因为&lt;code>library&lt;/code>和&lt;code>repository&lt;/code>在中文里都可以翻译为“库”，个人在看一些教程或书的时候也稍微混了一下，所以这里特意说明。&lt;/p>
+&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="获取镜像">获取镜像&lt;/h2>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">docker pull &lt;span style="color:#f92672">[&lt;/span>options&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">[&lt;/span>docker_registry_address&lt;span style="color:#f92672">[&lt;/span>:port&lt;span style="color:#f92672">]&lt;/span>/&lt;span style="color:#f92672">]&lt;/span>repository&lt;span style="color:#f92672">[&lt;/span>:tag&lt;span style="color:#f92672">]&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中：&lt;/p>
+&lt;ul>
+&lt;li>docker_registry_address：Docker镜像仓库地址，格式一般为&lt;code>domain/IP[:port]&lt;/code>。如果不给出，默认为Docker Hub&lt;/li>
+&lt;li>repository：镜像名称，如&lt;code>ubuntu&lt;/code>&lt;/li>
+&lt;li>tag：指出镜像的版本，例如&lt;code>ubuntu:18.04&lt;/code>，或者&lt;code>ubuntu:latest&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>例子：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ docker pull ubuntu:18.04
+latest: Pulling from library/ubuntu
+22e816666fd6: Pull complete
+079b6d2a1e53: Pull complete
+11048ebae908: Pull complete
+c58094023a2e: Pull complete
+Digest: sha256:a7b8b7b33e44b123d7f997bd4d3d0a59fafc63e203d17efedf09ff3f6f516152
+Status: Downloaded newer image &lt;span style="color:#66d9ef">for&lt;/span> ubuntu:latest
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>上面的输出体现了分层存储的概念，镜像由多层存储构成，因此下载的时候也是一层一层地下载，这样也方便了本地镜像的复用，减少存储消耗。下载过程中给出了每一层的ID的前12位，该ID随着镜像的更新可能会有所变化；下载结束后，会给出该镜像完整的SHA256摘要，用以确认下载的一致性。&lt;/p>
+&lt;h2 id="镜像运行">镜像运行&lt;/h2>
+&lt;p>下面的命令给出了运行镜像的一个例子：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ docker run -it --rm ubuntu:18.04 bash
+root@7ca7d3899f54:/# cat /etc/os-release
+NAME&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Ubuntu&amp;#34;&lt;/span>
+VERSION&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;18.04.3 LTS (Bionic Beaver)&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># 略去一些输出&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>docker run&lt;/code>命令用于运行容器，这里涉及到的参数有：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>-it&lt;/code>：&lt;code>-i&lt;/code>和&lt;code>-t&lt;/code>参数的合并形式，前者表示进行交互式操作，后者表示启动一个伪终端。
+如果加&lt;code>-t&lt;/code>不加&lt;code>-i&lt;/code>，则会显示&lt;strong>伪终端&lt;/strong>，即命令行提示符，但无法输入命令与容器交互；如果加&lt;code>-t&lt;/code>不加&lt;code>-i&lt;/code>，则可以输入命令并执行，但不会显示伪终端，即没有命令行提示符。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>--rm&lt;/code>：表示在容器退出后删除，这里因为仅是试运行，因此指定退出后删除，避免浪费空间&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>ubuntu:18.04&lt;/code>：指出要加载的镜像&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>bash&lt;/code>：启动容器后执行的命令，因为我们想要一个交互式Shell，因此使用&lt;code>bash&lt;/code>·&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>进入容器后默认是以&lt;code>root&lt;/code>身份，此时可以像在常规Ubuntu系统中那样执行Shell命令，这里我们查看了一下系统信息。&lt;/p>
+&lt;p>最后可以通过按下&lt;code>Ctrl+D&lt;/code>（退出当前会话）或输入&lt;code>exit&lt;/code>退出容器。&lt;/p>
+&lt;blockquote class="alert alert-note">
+&lt;p>事实上，此时按下 &lt;code>Ctrl+D&lt;/code> 或输入&lt;code>exit&lt;/code>是退出了&lt;code>bash&lt;/code>，并不等同于直接退出容器。真正导致容器退出的原因是该容器的主进程，即&lt;code>bash&lt;/code>退出了，主进程退出了，容器再无存在的必要，因此也随之退出了。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="查看本地镜像">查看本地镜像&lt;/h2>
+&lt;p>&lt;code>docker image ls&lt;/code>命令用于列出已下载的镜像，并且提供了很多参数来定制输出。&lt;/p>
+&lt;h3 id="无参数">无参数&lt;/h3>
+&lt;p>不带参数的&lt;code>docker image ls&lt;/code>命令会列出本地所有&lt;strong>顶层&lt;/strong>镜像的信息，包括仓库名、标签、镜像ID、创建时间和占用的空间。&lt;/p>
+&lt;blockquote>
+&lt;p>与顶层镜像概念相对应的是中间层镜像，下文会提及&lt;/p>
+&lt;/blockquote>
+&lt;p>镜像ID是一个镜像唯一的标识，同一个镜像有可能对应多个标签。例如：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ docker image ls
+REPOSITORY TAG IMAGE ID CREATED SIZE
+ubuntu 18.04 cf0f3ca922e0 &lt;span style="color:#ae81ff">9&lt;/span> days ago 64.2MB
+ubuntu latest cf0f3ca922e0 &lt;span style="color:#ae81ff">9&lt;/span> days ago 64.2MB
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>因为本文写作时，Docker官方镜像仓库中Ubuntu的最新版（latest）正是18.04，因此二者虽然标签不同，但是ID相同，对应的是同一个镜像。&lt;/p>
+&lt;h3 id="-a列出所有镜像">&lt;code>-a&lt;/code>：列出所有镜像&lt;/h3>
+&lt;p>相比于不带参数，带上&lt;code>-a&lt;/code>参数会列出所有的&lt;strong>中间层镜像&lt;/strong>，这些中间层镜像通常没有标签，是其他顶层镜像的依赖项，因此不要轻易删除。&lt;/p>
+&lt;h3 id="列出部分镜像">列出部分镜像&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>docker image ls ubuntu&lt;/code>：根据镜像组名列出镜像&lt;/li>
+&lt;li>&lt;code>docker image ls ubuntu:18.04&lt;/code>：列出某个特定的镜像&lt;/li>
+&lt;li>&lt;code>-f&lt;/code>/&lt;code>--filter&lt;/code>：&lt;code>docker image ls&lt;/code>支持过滤器，加上&lt;code>-f&lt;/code>或者&lt;code>--filter&lt;/code>，随后提供条件即可，例如：
+&lt;ul>
+&lt;li>&lt;code>docker image ls -f since=ubuntu:latest&lt;/code>可以显示本地在&lt;code>ubuntu:latest&lt;/code>之后拉取或者构建的镜像&lt;/li>
+&lt;li>同理，将&lt;code>since&lt;/code>替换成&lt;code>before&lt;/code>可以查看在某镜像之前拉取、构建的镜像&lt;/li>
+&lt;li>如果构建镜像时定义了&lt;code>LABEL&lt;/code>，还可以使用类似&lt;code>docker image ls -f label=xxx&lt;/code>来过滤&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="定制输出格式">定制输出格式&lt;/h3>
+&lt;p>&lt;code>docker image ls&lt;/code>可以利用Go的模板语法来定制输出格式，例如：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ docker image ls --format &lt;span style="color:#e6db74">&amp;#34;{{.ID}}: {{.Repository}}&amp;#34;&lt;/span>
+540a289bab6c: nginx
+cf0f3ca922e0: ubuntu
+cf0f3ca922e0: ubuntu
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样就可以只输出镜像的ID和镜像组名。值得一提的是，有时候为了批量删除镜像，通常会先用某种规则过滤出一批镜像ID，然后将输出作为参数传递给&lt;code>docker image rm&lt;/code>来删除指定镜像，这种情况下可以使用&lt;code>--format &amp;quot;{{.ID}}&amp;quot;&lt;/code>，也可以简单地使用&lt;code>-q&lt;/code>参数：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ docker image ls -q
+540a289bab6c
+cf0f3ca922e0
+cf0f3ca922e0
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="查看镜像体积">查看镜像体积&lt;/h3>
+&lt;p>在上面的&lt;code>docker image ls&lt;/code>无参数的示例中，我们可以看到本地每个镜像的体积（Size）。但实际上，这里有两点需要注意：&lt;/p>
+&lt;ol>
+&lt;li>该命令列出的每个镜像的体积与Docker Hub内对应镜像所显示的体积会有不同，通常比Docker Hub的更大。这是因为Docker Hub中显示的是压缩过的体积，方便网络传输，而本地的Size则是该镜像的完整体积。&lt;/li>
+&lt;li>本地所有镜像的Size之和并不等于这些镜像实际占用的存储空间，因为不同镜像之间可能会复用一些中间层的镜像。&lt;/li>
+&lt;/ol>
+&lt;p>要查看镜像实际占用的空间，可以使用&lt;code>docker system df&lt;/code>命令：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ docker system df
+TYPE TOTAL ACTIVE SIZE RECLAIMABLE
+Images &lt;span style="color:#ae81ff">2&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> 190.4MB 190.4MB &lt;span style="color:#f92672">(&lt;/span>100%&lt;span style="color:#f92672">)&lt;/span>
+Containers &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> 0B 0B
+Local Volumes &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> 0B 0B
+Build Cache &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> 0B 0B
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="虚悬镜像dangling-image">虚悬镜像(dangling image)&lt;/h3>
+&lt;p>在使用Docker一段时间后，使用&lt;code>docker image ls&lt;/code>查看镜像列表时，可能会出现&lt;code>REPOSITORY&lt;/code>和&lt;code>TAG&lt;/code>均为&lt;code>&amp;lt;none&amp;gt;&lt;/code>的镜像，但是仍具有ID。&lt;/p>
+&lt;p>这类镜像出现的原因是，随着镜像组的维护，新版本的镜像被发布，旧镜像的镜像名被转移到了新镜像的身上。例如&lt;code>ubuntu:18.04&lt;/code>，可能官方给其打了一个补丁后重新构建了镜像，但仍旧使用&lt;code>ubuntu:18.04&lt;/code>这个镜像名。虽然镜像名保持了旧的名称，但由于内容发生了变化，新镜像的ID也发生了变化。此时，旧的镜像的镜像名被“剥夺”，成为了所谓的“虚悬镜像”。&lt;/p>
+&lt;p>使用&lt;code>docker image ls -f dangling=true&lt;/code>可以专门查看此类镜像。&lt;/p>
+- https://www.libre.fun/posts/introduction-to-docker-image/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>Ubuntu 18.04.3 各类代理配置</title><link>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>Libre's Blog https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/ -&lt;p>本文主要阐述在Ubuntu系统中为一些软件配置代理的方法，包括APT、Snap、Git、Bash命令行以及Ubuntu系统层面的HTTP代理。&lt;/p>
 &lt;h2 id="准备工作">准备工作&lt;/h2>
-&lt;h3 id="使用vmware安装ubuntu-18043系统">使用VMware安装Ubuntu 18.04.3系统&lt;/h3>
-&lt;p>略。该步骤请读者自行完成。&lt;/p>
-&lt;h3 id="确认虚拟机使用nat模式连接网络">确认虚拟机使用NAT模式连接网络&lt;/h3>
-&lt;p>打开VMware，右键点击左侧《库》面板中安装好的虚拟机，进入《网络适配器》查看网络连接模式，将其设置为《NAT模式》，如下图所示&lt;/p>
+&lt;h3 id="实验环境">实验环境&lt;/h3>
+&lt;p>本文中，笔者在VMware虚拟机中安装了Ubuntu系统，网络连接使用NAT模式。就代理的配置方式而言，无论虚拟机还是物理机都是通用的，区别只在于代理IP有所不同。在物理机上配置代理，只需要知道代理软件的IP（记作&lt;code>PROXY_IP&lt;/code>）和端口（本文中默认使用1080）。&lt;/p>
+&lt;h3 id="虚拟机使用nat模式连接网络">虚拟机使用NAT模式连接网络&lt;/h3>
+&lt;p>如果你是在虚拟机中安装了Ubuntu系统，则需要确认其网络访问方式为NAT。打开VMware，右键点击左侧「库」面板中安装好的虚拟机，进入「网络适配器」查看网络连接模式，将其设置为「NAT模式」，如下图所示&lt;/p>
 &lt;figure>
 &lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20191105215106.png"/>
 &lt;/figure>
-&lt;h3 id="宿主机科学上网工具的准备">宿主机科学上网工具的准备❗&lt;/h3>
-&lt;p>宿主机（即安装VMware的主机）上需要一定的科学上网工具，例如SSR或者SS。科学上网工具的安装与使用超出了本文的范畴。&lt;/p>
-&lt;p>在SS或者SSR中，需要打开“允许来自局域网的连接”(SSR-windows 4.9.2)或者“允许其他设备连入”(SS-windows 4.1.7)等类似的选项。该选项的名称可能会根据科学上网工具版本的不同而有细微的差别&lt;/p>
+&lt;h3 id="代理工具的准备">代理工具的准备&lt;/h3>
+&lt;p>由于众所周知的原因，必须借助某些代理软件才能够实现对外网的流畅访问。&lt;/p>
+&lt;p>&lt;strong>在SS或者SSR中，需要打开“允许来自局域网的连接”(SSR-windows 4.9.2)或者“允许其他设备连入”&lt;/strong>(SS-windows 4.1.7)等类似的选项。该选项的名称可能会根据代理软件版本的不同而有细微的差别。&lt;/p>
 &lt;h3 id="在宿主机上安装xshell-可选">在宿主机上安装XShell （可选）&lt;/h3>
 &lt;p>XShell是一个用于SSH连接到主机的工具，这里推荐安装和使用。如果没有使用过这类工具的用户可以略过。&lt;/p>
-&lt;h3 id="查看宿主机ip地址">查看宿主机IP地址&lt;/h3>
-&lt;p>以Windows为例，按下《Win+R》，输入&lt;code>cmd&lt;/code>并按下回车，打开Windows命令提示符。&lt;/p>
-&lt;p>输入&lt;code>ipconfig&lt;/code>，在《以太网适配器 以太网》中查看IPv4地址，通常以&lt;code>172.16/17/18&lt;/code>或者&lt;code>192.168&lt;/code>开头。&lt;/p>
-&lt;p>将该IP地址记为&lt;code>HOST_IP&lt;/code>，后文中将始终使用&lt;code>HOST_IP&lt;/code>来代替真实的宿主机IP地址。读者在使用时请替换成自己宿主机的IP地址。&lt;/p>
-&lt;h3 id="确认科学上网软件的本地端口号">确认科学上网软件的本地端口号&lt;/h3>
-&lt;p>一般来讲，如果没有做过更改，SS和SSR使用的本地端口号都是&lt;code>1080&lt;/code>。所以本文的命令中都会使用&lt;code>1080&lt;/code>这个端口号。&lt;/p>
-&lt;h3 id="命令权限问题">命令权限问题⚠&lt;/h3>
+&lt;h3 id="确认代理ip地址">确认代理IP地址&lt;/h3>
+&lt;p>在虚拟机方案中，通常是宿主机上运行代理软件，然后配置虚拟机Ubuntu系统的代理，从而使Ubuntu正常访问外网。此时则需要查看宿主机的IP地址。&lt;/p>
+&lt;p>以Windows为例，按下「Win+R」，输入&lt;code>cmd&lt;/code>并按下回车，打开Windows命令提示符。&lt;/p>
+&lt;p>输入&lt;code>ipconfig&lt;/code>，在「以太网适配器 VMware Network Adapter VMnet8」中查看IPv4地址，通常以&lt;code>172.16/17/18&lt;/code>或者&lt;code>192.168&lt;/code>开头。&lt;/p>
+&lt;blockquote>
+&lt;p>VMware Network Adapter VMnet8 是VMware中使用NAT模式的虚拟机专用的网络适配器。&lt;/p>
+&lt;/blockquote>
+&lt;p>将该IP地址记为&lt;code>PROXY_IP&lt;/code>，即我们需要的代理IP地址。后文中将始终使用&lt;code>PROXY_IP&lt;/code>。读者在实践时需要替换为自己查看到的IP地址。&lt;/p>
+&lt;h3 id="确认代理端口号">确认代理端口号&lt;/h3>
+&lt;p>一般来讲，如果没有做过更改，SS和SSR使用的代理端口号都是&lt;code>1080&lt;/code>。所以本文的命令中都会使用&lt;code>1080&lt;/code>这个端口号。&lt;/p>
+&lt;h3 id="确认系统权限">确认系统权限&lt;/h3>
 &lt;p>本文中使用的部分命令需要&lt;code>root&lt;/code>权限，如果在&lt;code>root&lt;/code>账户下，则可以直接执行命令；如果是在普通账户下，需要在命令前加上&lt;code>sudo&lt;/code>关键字。&lt;/p>
 &lt;h2 id="apt代理配置">APT代理配置&lt;/h2>
 &lt;blockquote>
@@ -151,11 +281,14 @@ ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;qu
 $ sudo vim /etc/apt/apt.conf.d/proxy.conf
 &lt;span style="color:#75715e"># 此时会创建并打开一个名为proxy.conf的文件，按下I进入编辑模式，输入以下几行&lt;/span>
 Acquire &lt;span style="color:#f92672">{&lt;/span>
-HTTP::proxy &lt;span style="color:#e6db74">&amp;#34;http://HOST_IP:1080&amp;#34;&lt;/span>;
-HTTPS::proxy &lt;span style="color:#e6db74">&amp;#34;http://HOST_IP:1080&amp;#34;&lt;/span>;
+HTTP::proxy &lt;span style="color:#e6db74">&amp;#34;http://PROXY_IP:1080&amp;#34;&lt;/span>;
+HTTPS::proxy &lt;span style="color:#e6db74">&amp;#34;http://PROXY_IP:1080&amp;#34;&lt;/span>;
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;span style="color:#75715e"># 输入后按下Esc，然后输入:wq，按下回车即可保存退出&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>在宿主机上打开SS或者SSR的流量监控，使用&lt;code>apt-get install&lt;/code>命令安装任意一个包，查看下载速度并和宿主机上的流量监控数据进行对照，如果速度接近，即说明代理配置成功。&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>打开代理软件（SS或者SSR）的流量监控，使用&lt;code>apt-get install&lt;/code>命令安装任意一个包，查看下载速度并和宿主机上的流量监控数据进行对照，如果速度接近，即说明代理配置成功。&lt;/p>
+&lt;blockquote>
+&lt;p>加快APT安装速度还有其他方案，例如替换为淘宝源等。&lt;/p>
+&lt;/blockquote>
 &lt;h2 id="snap代理配置">Snap代理配置&lt;/h2>
 &lt;blockquote>
 &lt;p>参考：&lt;a href="https://blog.shunwww.cn/2019/02/19/yuque/proxy-snap/">使用代理安装 SNAP 包以加速下载&lt;/a>&lt;/p>
@@ -164,21 +297,22 @@ HTTPS::proxy &lt;span style="color:#e6db74">&amp;#34;http://HOST_IP:1080&amp;#34
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ systemctl edit snapd
 &lt;span style="color:#75715e"># 此时会打开一个编辑器，直接输入以下内容：&lt;/span>
 &lt;span style="color:#f92672">[&lt;/span>Service&lt;span style="color:#f92672">]&lt;/span>
-Environment&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;http_proxy=HOST_IP:1080&amp;#34;&lt;/span>
-Environment&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https_proxy=HOST_IP:1080&amp;#34;&lt;/span>
+Environment&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;http_proxy=PROXY_IP:1080&amp;#34;&lt;/span>
+Environment&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https_proxy=PROXY_IP:1080&amp;#34;&lt;/span>
 &lt;span style="color:#75715e"># 注意在输入上述内容时，小键盘的数字键是不可用的，如果不小心按了小键盘的数字键进入了奇怪的模式，按下Ctrl+C即可取消，然后接着输入即可&lt;/span>
 &lt;span style="color:#75715e"># 输入完成后，按下Ctrl+O，然后回车保存，然后Ctrl+X退出&lt;/span>
 &lt;span style="color:#75715e"># 然后重启Snap后台进程&lt;/span>
 $ systemctl daemon-reload
 $ systemctl restart snapd
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>同样地，使用&lt;code>snap install&lt;/code>安装任意一个包， 对照宿主机的流量监控，查看是否配置成功。&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>同样地，使用&lt;code>snap install&lt;/code>安装任意一个包， 对照代理软件的流量监控，查看是否配置成功。&lt;/p>
 &lt;h2 id="git代理配置">Git代理配置&lt;/h2>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">git config --global http.proxy http://HOST_IP:1080
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="ubuntu系统层面的http代理">Ubuntu系统层面的HTTP代理👎&lt;/h2>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">git config --global http.proxy http://PROXY_IP:1080
+git config --global https.proxy http://PROXY_IP:1080
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="ubuntu系统层面的http代理">Ubuntu系统层面的HTTP代理&lt;/h2>
 &lt;p>使用Ubuntu时，肯定还会有访问一些网页的需求，例如Google，因此还需要给Ubuntu配置一下系统全局代理，这样才能让浏览器的HTTP和HTTPS请求走代理。&lt;/p>
 &lt;p>这一步使用图形界面或者命令行都可以做，这里各自说一下。&lt;/p>
 &lt;h3 id="图形界面">图形界面&lt;/h3>
-&lt;p>打开《设置/Settings》➡《网络/Network》➡《代理/Network Proxy》，按照下图所示进行输入，记得将&lt;code>HOST_IP&lt;/code>替换为宿主机的IP：&lt;/p>
+&lt;p>打开「设置/Settings」➡「网络/Network」➡「代理/Network Proxy」，按照下图所示进行输入，记得将&lt;code>PROXY_IP&lt;/code>替换为宿主机的IP：&lt;/p>
 &lt;figure>
 &lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20191002133051.png"/>
 &lt;/figure>
@@ -190,20 +324,20 @@ $ systemctl restart snapd
 &lt;p>参考：&lt;a href="https://kifarunix.com/how-to-set-system-wide-proxy-in-ubuntu-18-04/">How to Set System Wide Proxy in Ubuntu 18.04&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;p>在命令行下，通常是通过设置环境变量来配置代理，执行以下命令即可：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ export http_proxy&lt;span style="color:#f92672">=&lt;/span>http://HOST_IP:1080
-$ export https_proxy&lt;span style="color:#f92672">=&lt;/span>http://HOST_IP:1080
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>但是这种方式只会在当前会话中起作用，如果你是通过XShell连接的Ubuntu，那么关闭会话后该环境变量就会失效；如果是在虚拟机中的Terminal中执行的命令，那么关闭Terminal后就会失效。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">export http_proxy&lt;span style="color:#f92672">=&lt;/span>http://PROXY_IP:1080
+export https_proxy&lt;span style="color:#f92672">=&lt;/span>http://PROXY_IP:1080
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>但是这种方式只会在当前会话中起作用，如果你是通过XShell连接的Ubuntu，或者打开了一个Bash终端，那么关闭会话/关闭终端后该环境变量就会失效。&lt;/p>
 &lt;p>如果你想为系统永久配置代理，则需要进一步编辑配置文件。然而这里也有两种策略：&lt;/p>
 &lt;ul>
 &lt;li>只为当前用户配置代理&lt;/li>
 &lt;li>为系统的所有用户配置代理（包括root）&lt;/li>
 &lt;/ul>
 &lt;h4 id="只为当前用户配置代理">只为当前用户配置代理&lt;/h4>
-&lt;p>做法是修改当前用户的bash配置，具体操作如下：&lt;/p>
+&lt;p>做法是修改当前用户的.bashrc，具体操作如下：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ cd
 &lt;span style="color:#75715e"># 确保位于当前用户的home目录下&lt;/span>
 &lt;span style="color:#75715e"># 将两行命令写入.bashrc文件内&lt;/span>
-$ echo -e &lt;span style="color:#e6db74">&amp;#34;export http_proxy=http://HOST_IP:1080/\nexport https_proxy=https://HOST_IP:1080/&amp;#34;&lt;/span> | tee -a .bashrc
+$ echo -e &lt;span style="color:#e6db74">&amp;#34;export http_proxy=http://PROXY_IP:1080/\nexport https_proxy=https://PROXY_IP:1080/&amp;#34;&lt;/span> | tee -a .bashrc
 &lt;span style="color:#75715e"># 该命令不会立即生效，重启shell才能生效；要使它立即生效，可以执行以下命令：&lt;/span>
 $ source .bashrc
 &lt;span style="color:#75715e"># 输入以下命令测试是否成功：&lt;/span>
@@ -223,18 +357,18 @@ index.html &lt;span style="color:#f92672">[&lt;/span> &amp;lt;&lt;span style="co
 &lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="为系统所有用户配置代理">为系统所有用户配置代理&lt;/h4>
 &lt;p>如果你尝试了刚刚说的方法，会发现在当前的普通用户下的网络访问是可以走代理的，但是如果切换到&lt;code>root&lt;/code>账号，再执行&lt;code>wget google.com&lt;/code>，就会发现连接不上，这是因为刚刚修改的&lt;code>.bashrc&lt;/code>文件是属于那个普通账户的，也只会对那个普通用户的bash命令行起作用，其他用户的网络访问则不走代理。&lt;/p>
 &lt;p>想要一次性为系统的所有用户配置代理，需要修改&lt;code>/etc/environment&lt;/code>文件：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ echo -e &lt;span style="color:#e6db74">&amp;#34;http_proxy=http://HOST_IP:1080/\nhttps_proxy=https://HOST_IP:1080/&amp;#34;&lt;/span> | sudo tee -a /etc/environment
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ echo -e &lt;span style="color:#e6db74">&amp;#34;http_proxy=http://PROXY_IP:1080/\nhttps_proxy=https://PROXY_IP:1080/&amp;#34;&lt;/span> | sudo tee -a /etc/environment
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>这种配置方法在重新登录后才会生效。&lt;/p>
-- https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>Libre's Blog https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ -&lt;h3 id="问题原因">问题原因&lt;/h3>
-&lt;p>在安装CentOS 7.6系统时，图形安装界面的部分有一个配置网络的选项，进去之后可以开启网卡，而Minimal Installation默认是不开启网卡的，因此如果在安装系统时没有打开网卡，进入系统之后会发现无法联网，所有和网络有关的操作都会报错。&lt;/p>
-&lt;h3 id="解决方法">解决方法&lt;/h3>
+- https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>Libre's Blog https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ -&lt;h2 id="问题原因">问题原因&lt;/h2>
+&lt;p>在安装CentOS 7.6系统时，图形安装界面的部分有一个配置网络的选项，进去之后可以开启网卡，而Minimal Installation默认是不开启网卡的，因此如果在安装系统时由于疏忽忘记打开网卡，进入系统之后会发现无法联网，所有和网络有关的操作都会报错。&lt;/p>
+&lt;h2 id="解决方法">解决方法&lt;/h2>
 &lt;p>首先通过命令&lt;code>nmcli d&lt;/code>查看网卡启用状态：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#f92672">[&lt;/span>libre@localhost ~&lt;span style="color:#f92672">]&lt;/span>$ nmcli d
 DEVICE TYPE STATE CONNECTION
 ens33 ethernet disconnected --
 lo loopback unmanaged --
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>发现网卡的确是未启用。然后编辑文件&lt;code>/etc/sysconfig/network-scripts/ifcfg-ens&amp;lt;num&amp;gt;&lt;/code>，这个地方的&lt;code>&amp;lt;num&amp;gt;&lt;/code>每台机器可能会不一样，使用Tab自动补全即可。&lt;/p>
-&lt;p>打开该文件后将最后一行的&lt;code>ONBOOT=NO&lt;/code>改为&lt;code>ONBOOT=YES&lt;/code>，然后保存退出，再通过以下命令重启网络：&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>发现网卡的确是未启用。然后编辑文件&lt;code>/etc/sysconfig/network-scripts/ifcfg-ens&amp;lt;num&amp;gt;&lt;/code>，此处的&lt;code>&amp;lt;num&amp;gt;&lt;/code>在每台机器可能不一样，使用Tab自动补全即可。&lt;/p>
+&lt;p>将该文件最后一行的&lt;code>ONBOOT=NO&lt;/code>改为&lt;code>ONBOOT=YES&lt;/code>，然后保存退出，再通过以下命令重启网络：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">service network restart
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>此时再查看网卡状态：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#f92672">[&lt;/span>libre@localhost ~&lt;span style="color:#f92672">]&lt;/span>$ nmcli d

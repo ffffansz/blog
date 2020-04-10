@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on Libre's Blog</title><link>https://www.libre.fun/tags/docker/</link><description>Recent content in Docker on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Mon, 28 Oct 2019 10:58:00 +0800</lastBuildDate><atom:link href="https://www.libre.fun/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker 入门：镜像</title><link>https://www.libre.fun/posts/introduction-to-docker-image/</link><pubDate>Mon, 28 Oct 2019 10:58:00 +0800</pubDate><guid>https://www.libre.fun/posts/introduction-to-docker-image/</guid><description>参考：Docker — 从入门到实践
+镜像的基本原理 OS分为内核和用户空间。对于Linux而言，内核启动后， 会挂载 root 文件系统为其提供用户空间支持。而 Docker 镜像（Image），就相当于是一个 root 文件系统。比如官方镜像 ubuntu:18.04 就包含了完整的一套 Ubuntu 18.04 最小系统的 root 文件系统。
+Docker中的镜像利用Union FS技术，被设计为分层存储的架构，由多层文件系统联合组成。
+镜像在构建时，会一层层构建，前一层是后一层的基础。 每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。
+分层存储的特征使得镜像的复用、定制变的更为容易。可以用之前构建好的镜像作为基础层，然后进一步添加新的层，以定制自己所需的内容，构建新的镜像。
+镜像仓库的相关概念 这里解释一下Docker镜像仓库相关的概念：
+首先，读者应该知道Linux系统中有软件源的概念，一个软件源提供了若干软件的下载、安装与更新。例如，Ubuntu系统中通过apt install或者apt-get install命令从预先配置的软件源中下载和安装软件，CentOS也有类似的yum install等。
+在Docker的世界中，这样的「软件源」被称为registry。registry用以保存Docker镜像，其中还包括镜像层次结构和关于镜像的元数据等。由Docker官方维护的registry被称为Docker Hub，用户也可以在自己的服务器上搭建私有的registry。
+Docker Hub并不是只有Docker官方才可以提供镜像，它类似Github，任何用户都可以创建账号，向Docker Hub上传自己制作的镜像。
+对于Docker Hub中存储的镜像，可以通过[username/]repository:tag来唯一指定。
+如果不提供username，则会指向Docker官方维护的镜像库，即library；如果提供了username，则指向的是该用户的镜像库（相当于账户） repository表示的是具有某个功能的Docker镜像的所有迭代版本构成的镜像组，例如ubuntu，其含义是包括Ubuntu 18.04、Ubuntu 16.04、Ubuntu 14.04等一系列镜像在内的镜像组 tag用于指出repository中具体的某个镜像，例如ubuntu:latest，意为指定该镜像库中最新版的Ubuntu镜像；再例如ubuntu:16.04，意为指定版本号为16.04的Ubuntu镜像。 但是对于一条docker pull ubuntu命令来说，并不是拉取了整个镜像组，而是会使用一个默认的tag，即latest
+不要混淆镜像库和镜像组的概念：
+镜像库：默认为library或由username指定，是Docker官方或某用户提供的若干（不一定相关的）镜像组的集合；
+镜像组：由repository，一般某个特定功能的镜像的若干迭代版本组成，每个迭代版本通常可以由一个标签指定，如上面举的ubuntu的例子；
+因为library和repository在中文里都可以翻译为“库”，个人在看一些教程或书的时候也稍微混了一下，所以这里特意说明。
+获取镜像 docker pull [options] [docker_registry_address[:port]/]repository[:tag] 其中：
+docker_registry_address：Docker镜像仓库地址，格式一般为domain/IP[:port]。如果不给出，默认为Docker Hub repository：镜像名称，如ubuntu tag：指出镜像的版本，例如ubuntu:18.04，或者ubuntu:latest 例子：
+$ docker pull ubuntu:18.</description></item></channel></rss>

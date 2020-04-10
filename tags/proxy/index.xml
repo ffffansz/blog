@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Proxy on Libre's Blog</title><link>https://www.libre.fun/tags/proxy/</link><description>Recent content in Proxy on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Tue, 15 Oct 2019 16:54:57 +0800</lastBuildDate><atom:link href="https://www.libre.fun/tags/proxy/index.xml" rel="self" type="application/rss+xml"/><item><title>虚拟机 Ubuntu 18.04.3 代理配置</title><link>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>由于国内的网络问题，无论是物理机还是虚拟机安装Linux系统之后，总会遇到各种各样跟网络相关的问题，例如Ubuntu下APT源、Snap源访问速度慢、Git Clone速度慢，或者需要在浏览器中访问被墙的网站等等，因此使用代理（科学上网）是不得不采取的手段。
-本文主要阐述在虚拟机中安装Ubuntu后一些配置代理的方法，包括APT的代理、Snap的代理、Git的代理、命令行的代理以及Ubuntu系统层面的HTTP代理。
-准备工作 使用VMware安装Ubuntu 18.04.3系统 略。该步骤请读者自行完成。
-确认虚拟机使用NAT模式连接网络 打开VMware，右键点击左侧《库》面板中安装好的虚拟机，进入《网络适配器》查看网络连接模式，将其设置为《NAT模式》，如下图所示
-宿主机科学上网工具的准备❗ 宿主机（即安装VMware的主机）上需要一定的科学上网工具，例如SSR或者SS。科学上网工具的安装与使用超出了本文的范畴。
-在SS或者SSR中，需要打开“允许来自局域网的连接”(SSR-windows 4.9.2)或者“允许其他设备连入”(SS-windows 4.1.7)等类似的选项。该选项的名称可能会根据科学上网工具版本的不同而有细微的差别
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Proxy on Libre's Blog</title><link>https://www.libre.fun/tags/proxy/</link><description>Recent content in Proxy on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Tue, 15 Oct 2019 16:54:57 +0800</lastBuildDate><atom:link href="https://www.libre.fun/tags/proxy/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu 18.04.3 各类代理配置</title><link>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>本文主要阐述在Ubuntu系统中为一些软件配置代理的方法，包括APT、Snap、Git、Bash命令行以及Ubuntu系统层面的HTTP代理。
+准备工作 实验环境 本文中，笔者在VMware虚拟机中安装了Ubuntu系统，网络连接使用NAT模式。就代理的配置方式而言，无论虚拟机还是物理机都是通用的，区别只在于代理IP有所不同。在物理机上配置代理，只需要知道代理软件的IP（记作PROXY_IP）和端口（本文中默认使用1080）。
+虚拟机使用NAT模式连接网络 如果你是在虚拟机中安装了Ubuntu系统，则需要确认其网络访问方式为NAT。打开VMware，右键点击左侧「库」面板中安装好的虚拟机，进入「网络适配器」查看网络连接模式，将其设置为「NAT模式」，如下图所示
+代理工具的准备 由于众所周知的原因，必须借助某些代理软件才能够实现对外网的流畅访问。
+在SS或者SSR中，需要打开“允许来自局域网的连接”(SSR-windows 4.9.2)或者“允许其他设备连入”(SS-windows 4.1.7)等类似的选项。该选项的名称可能会根据代理软件版本的不同而有细微的差别。
 在宿主机上安装XShell （可选） XShell是一个用于SSH连接到主机的工具，这里推荐安装和使用。如果没有使用过这类工具的用户可以略过。
-查看宿主机IP地址 以Windows为例，按下《Win+R》，输入cmd并按下回车，打开Windows命令提示符。
-输入ipconfig，在《以太网适配器 以太网》中查看IPv4地址，通常以172.16/17/18或者192.168开头。
-将该IP地址记为HOST_IP，后文中将始终使用HOST_IP来代替真实的宿主机IP地址。读者在使用时请替换成自己宿主机的IP地址。
-确认科学上网软件的本地端口号 一般来讲，如果没有做过更改，SS和SSR使用的本地端口号都是1080。所以本文的命令中都会使用1080这个端口号。
-命令权限问题⚠ 本文中使用的部分命令需要root权限，如果在root账户下，则可以直接执行命令；如果是在普通账户下，需要在命令前加上sudo关键字。
+确认代理IP地址 在虚拟机方案中，通常是宿主机上运行代理软件，然后配置虚拟机Ubuntu系统的代理，从而使Ubuntu正常访问外网。此时则需要查看宿主机的IP地址。
+以Windows为例，按下「Win+R」，输入cmd并按下回车，打开Windows命令提示符。
+输入ipconfig，在「以太网适配器 VMware Network Adapter VMnet8」中查看IPv4地址，通常以172.16/17/18或者192.168开头。
+VMware Network Adapter VMnet8 是VMware中使用NAT模式的虚拟机专用的网络适配器。
+将该IP地址记为PROXY_IP，即我们需要的代理IP地址。后文中将始终使用PROXY_IP。读者在实践时需要替换为自己查看到的IP地址。
+确认代理端口号 一般来讲，如果没有做过更改，SS和SSR使用的代理端口号都是1080。所以本文的命令中都会使用1080这个端口号。
+确认系统权限 本文中使用的部分命令需要root权限，如果在root账户下，则可以直接执行命令；如果是在普通账户下，需要在命令前加上sudo关键字。
 APT代理配置 参考：How to Set the Proxy for APT on Ubuntu 18.04
 APT是Ubuntu系统内常用的软件包管理器，为APT配置代理之后能够保证一些软件可以正常安装，安装速度通常也会有一定的提升。
 给APT配置代理的步骤如下：
-$ sudo apt install vim # 该命令是为了安装Vim编辑器，Ubuntu不自带Vim；如果已安装，则可以忽略这一条 $ sudo vim /etc/apt/apt.conf.d/proxy.conf # 此时会创建并打开一个名为proxy.conf的文件，按下I进入编辑模式，输入以下几行 Acquire { HTTP::proxy &amp;#34;http://HOST_IP:1080&amp;#34;; HTTPS::proxy &amp;#34;http://HOST_IP:1080&amp;#34;; } # 输入后按下Esc，然后输入:wq，按下回车即可保存退出 在宿主机上打开SS或者SSR的流量监控，使用apt-get install命令安装任意一个包，查看下载速度并和宿主机上的流量监控数据进行对照，如果速度接近，即说明代理配置成功。
-Snap代理配置 参考：使用代理安装 SNAP 包以加速下载</description></item></channel></rss>
+$ sudo apt install vim # 该命令是为了安装Vim编辑器，Ubuntu不自带Vim；如果已安装，则可以忽略这一条 $ sudo vim /etc/apt/apt.conf.d/proxy.conf # 此时会创建并打开一个名为proxy.conf的文件，按下I进入编辑模式，输入以下几行 Acquire { HTTP::proxy &amp;#34;http://PROXY_IP:1080&amp;#34;; HTTPS::proxy &amp;#34;http://PROXY_IP:1080&amp;#34;; } # 输入后按下Esc，然后输入:wq，按下回车即可保存退出 打开代理软件（SS或者SSR）的流量监控，使用apt-get install命令安装任意一个包，查看下载速度并和宿主机上的流量监控数据进行对照，如果速度接近，即说明代理配置成功。</description></item></channel></rss>

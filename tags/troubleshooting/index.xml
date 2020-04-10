@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Troubleshooting on Libre's Blog</title><link>https://www.libre.fun/tags/troubleshooting/</link><description>Recent content in Troubleshooting on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Tue, 29 Oct 2019 12:50:09 +0800</lastBuildDate><atom:link href="https://www.libre.fun/tags/troubleshooting/index.xml" rel="self" type="application/rss+xml"/><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>什么是WSL WSL中文全称为《适用于 Linux 的 Windows 子系统》（Windows Subsystem for Linux），是一个为在Windows 10和Windows Server 2019上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Troubleshooting on Libre's Blog</title><link>https://www.libre.fun/tags/troubleshooting/</link><description>Recent content in Troubleshooting on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Tue, 29 Oct 2019 12:50:09 +0800</lastBuildDate><atom:link href="https://www.libre.fun/tags/troubleshooting/index.xml" rel="self" type="application/rss+xml"/><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>什么是WSL WSL中文全称为「适用于 Linux 的 Windows 子系统」（Windows Subsystem for Linux），是一个为在Windows 10和Windows Server 2019上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。
 WSL相比于VMware等虚拟机解决方案更加轻量，启动速度更快，但代价是阉割了一些Linux系统的功能，例如systemd、Ubuntu中的snapd等（截止本文写作时）。但是对于一般Linux用户的使用是足够的。
 WSL的启用 在默认设置下，WSL是被关闭的，因此，首先需要在系统中开启WSL，有以下两种方式：
-通过图形界面启用WSL Windows《设置》➡《应用》➡右侧《程序和功能》➡《启用或关闭Windows功能》➡勾选《适用于 Linux 的 Windows 子系统》
+通过图形界面启用WSL Windows「设置」➡「应用」➡右侧「程序和功能」➡「启用或关闭Windows功能」➡勾选「适用于 Linux 的 Windows 子系统」
 确定之后重启系统。
-通过命令行启用WSL 开始菜单按钮单击右键➡《Windows Powershell （管理员）》，打开Powershell后运行以下命令：
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux 开始下载相关数据，下载完成后输入《yes》重启系统。
+通过命令行启用WSL 开始菜单按钮单击右键➡「Windows Powershell （管理员）」，打开Powershell后运行以下命令：
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux 开始下载相关数据，下载完成后输入「yes」重启系统。
 WSL的安装 在Windows中启用WSL之后，就可以安装你想使用的Linux发行版了，然而，这也要官方提供了相应的安装包才行。
 安装WSL同样有两种方式，一种是通过Microsoft Store安装，另一种是下载相应的应用包之后手动安装。鉴于Microsoft Store在网络方面的表现非常不稳定，推荐手动安装。
 手动安装👍 因为一些其他的原因，我之前就卸载了Microsoft Store，所以这里选择手动安装。根据官方文档，首先下载Ubuntu 18.04的Appx包，方便起见，将其重命名为ubuntu18.04.Appx：
 假设下载好的包位于D:\Download文件夹下，打开Powershell，运行以下命令即可安装：
-cd D:\Download Add-AppxPackage .\ubuntu18.04.Appx 通过Microsoft Store安装👎 进入Microsoft Store，搜索《Linux》，会出现官方提供的安装包，如下图所示（电脑上卸载了Microsoft Store，所以用网页版的截图代替一下）：
+cd D:\Download Add-AppxPackage .\ubuntu18.04.Appx 通过Microsoft Store安装👎 进入Microsoft Store，搜索「Linux」，会出现官方提供的安装包，如下图所示（电脑上卸载了Microsoft Store，所以用网页版的截图代替一下）：
 选择你想要的版本进行安装，我这里选择了Ubuntu 18.04 LTS。
 WSL的运行 安装好之后就可以进入系统了，同样地，可以通过在CMD或则Powershell输入ubuntu1804.exe直接在当前窗口进入WSL Ubuntu，也可以在开始菜单中找到新添加的Ubuntu 18.04打开。
-安装之后初次运行需要一些初始化的时间，需要等待一下。WSL默认有一个root用户，但初次运行通常会要求你添加一个新用户，按照提示输入用户名和密码即可，该用户会被自动成为sudoer。如遇到提示《Permission Denied》或需要以root身份运行某些命令时，在命令前加上sudo即可。
-Troubleshooting WSL如何重启 参考：Rebooting Ubuntu on Windows without rebooting Windows?</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>问题原因 在安装CentOS 7.6系统时，图形安装界面的部分有一个配置网络的选项，进去之后可以开启网卡，而Minimal Installation默认是不开启网卡的，因此如果在安装系统时没有打开网卡，进入系统之后会发现无法联网，所有和网络有关的操作都会报错。
+安装之后初次运行需要一些初始化的时间，需要等待一下。WSL默认有一个root用户，但初次运行通常会要求你添加一个新用户，按照提示输入用户名和密码即可，该用户会被自动成为sudoer。如遇到提示「Permission Denied」或需要以root身份运行某些命令时，在命令前加上sudo即可。
+Troubleshooting WSL如何重启 参考：Rebooting Ubuntu on Windows without rebooting Windows?</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>问题原因 在安装CentOS 7.6系统时，图形安装界面的部分有一个配置网络的选项，进去之后可以开启网卡，而Minimal Installation默认是不开启网卡的，因此如果在安装系统时由于疏忽忘记打开网卡，进入系统之后会发现无法联网，所有和网络有关的操作都会报错。
 解决方法 首先通过命令nmcli d查看网卡启用状态：
-[libre@localhost ~]$ nmcli d DEVICE TYPE STATE CONNECTION ens33 ethernet disconnected -- lo loopback unmanaged -- 发现网卡的确是未启用。然后编辑文件/etc/sysconfig/network-scripts/ifcfg-ens&amp;lt;num&amp;gt;，这个地方的&amp;lt;num&amp;gt;每台机器可能会不一样，使用Tab自动补全即可。
-打开该文件后将最后一行的ONBOOT=NO改为ONBOOT=YES，然后保存退出，再通过以下命令重启网络：
+[libre@localhost ~]$ nmcli d DEVICE TYPE STATE CONNECTION ens33 ethernet disconnected -- lo loopback unmanaged -- 发现网卡的确是未启用。然后编辑文件/etc/sysconfig/network-scripts/ifcfg-ens&amp;lt;num&amp;gt;，此处的&amp;lt;num&amp;gt;在每台机器可能不一样，使用Tab自动补全即可。
+将该文件最后一行的ONBOOT=NO改为ONBOOT=YES，然后保存退出，再通过以下命令重启网络：
 service network restart 此时再查看网卡状态：
 [libre@localhost ~]$ nmcli d DEVICE TYPE STATE CONNECTION ens33 ethernet connected ens33 lo loopback unmanaged -- 搞定。</description></item></channel></rss>
