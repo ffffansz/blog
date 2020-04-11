@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on Libre's Blog</title><link>https://www.libre.fun/tags/hugo/</link><description>Recent content in Hugo on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Sun, 12 Apr 2020 02:55:32 +0800</lastBuildDate><atom:link href="https://www.libre.fun/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo &amp; Github Pages 建站过程全记录</title><link>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</link><pubDate>Sun, 12 Apr 2020 02:55:32 +0800</pubDate><guid>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</guid><description>整体步骤 之前也使用Hugo搭建过几次个人博客，但是由于各种各样的问题始终不甚满意，未能持续运行。这次再从头搭建一次，力求将各种细节都做到让自己满意。
+博客搭建的整体步骤如下：
+从hugo new site建立的空项目开始，逐步添加内容。项目根路径记为Site
+在项目目录下建立Git仓库，然后Push到Github，Github上对应的仓库名为blog
+主题使用Git的子模块（Submodule）功能进行管理
+修改主题时，不去修改主题子模块本身的文件，而是将对应的样式文件、HTML或JS文件SCSS或HTML文件复制到Site目录下对应的目录再进行修改。由于Hugo的样式查找策略，会使用Site下的样式文件去替代themes/&amp;lt;theme-name&amp;gt;下的样式文件。
+这么做主要是考虑到主题后续还会更新，其样式文件会发生变化。Submodule功能k可以指定子模块的某次commit作为主项目使用的版本，更新与否取决于主项目是否想要使用新的版本。
+网站使用Github Pages发布，操作方式是在blog仓库中创建gh-pages分支，之后在仓库Setting页设置Source即可
+使用自定义域名
+利用Github Actions实现CI/CD，只需在本地master分支修改网站源码、添加博客内容，之后将master分支推送至Github即可，网站的生成和部署都由Github Actions完成。
+接下来是对建站过程的一个记录，途中碰到的问题也会一并记录下来。
+Git使用规范 之前使用Git的时候，自己有一个不好的习惯是修改一堆东西之后Commit一次，这样一来不但Commit Message不好写，而且版本管理也是一团糟，不利于版本回顾。
+所以这次强迫自己，所有修改以功能点为单位，修改完一个点就Commit一次。
+举个例子，假设我现在需要做两件事：(1) 修改文章标签的样式，(2) 修改Footer处的Copy Right。那么每做一件事，就Commit一次，并写清楚对应的Commit Message。
+多说一句，Git的功能非常强大，使用得当可以节省大量的时间。Git入门我推荐廖雪峰的Git教程，浅显易懂。我个人对Git的掌握也非常粗浅，只能通过不断地实践来熟悉它了。
+工具准备 本次搭建的是一个静态网站，使用的工具包括静态网站生成器Hugo、Git、Github Pages，以及一个基本的代码编辑器，推荐VSCode。使用的操作系统为Windows 10。
+在Hugo - Github下载最新的Release，注意extended版本才支持SCSS样式文件；平台是Windows，所以这里选择下载hugo_extended_0.68.3_Windows-64bit.zip；解压后得到hugo.exe文件，在D盘下建立文件夹Hugo，将hugo.exe放入（即D:\Hugo\hugo.exe）。然后在「环境变量」→「系统变量」→Path中添加D:\Hugo，即可在终端（CMD、Powershell、VSCode Terminal）中使用hugo命令。 在Git Downloads中下载Windows版本的Git安装包，本文写作时的版本是2.26.0，有一大堆安装选项，之后有空的话我再写一篇文章专门解释各个选项的意思。#TODO Github Pages是Github推出的一项免费托管服务，可以根据Github仓库内的文件将其转换为可直接访问的网站，域名是&amp;lt;github-username&amp;gt;.github.io，也可以自定义域名。只需拥有一个Github账号即可使用该功能。 下文的所有命令，均在VSCode Terminal内执行（实质就是在VSCode内调用了Windows内置的Powershell）。
+项目初始化 首先在Github上建立一个新仓库，名为blog，用于托管本次网站项目的源码。
+接着在某个本地目录下操作，这里我选择了D盘根路径：
+cd D:\ git clone https://github.com/ffffansz/blog.git Site 这样我们的Site文件夹在本地的绝对路径就是D:\Site。</description></item></channel></rss>

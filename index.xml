@@ -1,4 +1,255 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Libre's Blog</title><link>https://www.libre.fun/</link><description>Recent content on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Tue, 29 Oct 2019 14:30:09 +0800</lastBuildDate><atom:link href="https://www.libre.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>WSL 设置开机启动项</title><link>https://www.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 14:30:09 +0800</pubDate><guid>https://www.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://www.libre.fun/posts/setup-startup-in-wsl/ -&lt;p>在 &lt;a href="https://www.libre.fun/posts/install-wsl-and-troubleshooting/">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Libre's Blog</title><link>https://www.libre.fun/</link><description>Recent content on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Sun, 12 Apr 2020 02:55:32 +0800</lastBuildDate><atom:link href="https://www.libre.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo &amp; Github Pages 建站过程全记录</title><link>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</link><pubDate>Sun, 12 Apr 2020 02:55:32 +0800</pubDate><guid>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</guid><description>Libre's Blog https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/ -&lt;h2 id="整体步骤">整体步骤&lt;/h2>
+&lt;p>之前也使用Hugo搭建过几次个人博客，但是由于各种各样的问题始终不甚满意，未能持续运行。这次再从头搭建一次，力求将各种细节都做到让自己满意。&lt;/p>
+&lt;p>博客搭建的整体步骤如下：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>从&lt;code>hugo new site&lt;/code>建立的空项目开始，逐步添加内容。项目根路径记为&lt;code>Site&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在项目目录下建立Git仓库，然后Push到Github，Github上对应的仓库名为&lt;code>blog&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>主题使用Git的子模块（Submodule）功能进行管理&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>修改主题时，不去修改主题子模块本身的文件，而是将对应的样式文件、HTML或JS文件SCSS或HTML文件复制到&lt;code>Site&lt;/code>目录下对应的目录再进行修改。由于Hugo的样式查找策略，会使用&lt;code>Site&lt;/code>下的样式文件去替代&lt;code>themes/&amp;lt;theme-name&amp;gt;&lt;/code>下的样式文件。&lt;/p>
+&lt;blockquote>
+&lt;p>这么做主要是考虑到主题后续还会更新，其样式文件会发生变化。Submodule功能k可以指定子模块的某次commit作为主项目使用的版本，更新与否取决于主项目是否想要使用新的版本。&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>网站使用Github Pages发布，操作方式是在&lt;code>blog&lt;/code>仓库中创建&lt;code>gh-pages&lt;/code>分支，之后在仓库Setting页设置Source即可&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用自定义域名&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>利用Github Actions实现CI/CD，只需在本地&lt;code>master&lt;/code>分支修改网站源码、添加博客内容，之后将&lt;code>master&lt;/code>分支推送至Github即可，网站的生成和部署都由Github Actions完成。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>接下来是对建站过程的一个记录，途中碰到的问题也会一并记录下来。&lt;/p>
+&lt;h2 id="git使用规范">Git使用规范&lt;/h2>
+&lt;p>之前使用Git的时候，自己有一个不好的习惯是修改一堆东西之后Commit一次，这样一来不但Commit Message不好写，而且版本管理也是一团糟，不利于版本回顾。&lt;/p>
+&lt;p>所以这次强迫自己，&lt;strong>所有修改以功能点为单位，修改完一个点就Commit一次。&lt;/strong>&lt;/p>
+&lt;p>举个例子，假设我现在需要做两件事：(1) 修改文章标签的样式，(2) 修改Footer处的Copy Right。那么每做一件事，就Commit一次，并写清楚对应的Commit Message。&lt;/p>
+&lt;p>多说一句，Git的功能非常强大，使用得当可以节省大量的时间。Git入门我推荐&lt;a href="https://www.liaoxuefeng.com/wiki/896043488029600">廖雪峰的Git教程&lt;/a>，浅显易懂。我个人对Git的掌握也非常粗浅，只能通过不断地实践来熟悉它了。&lt;/p>
+&lt;h2 id="工具准备">工具准备&lt;/h2>
+&lt;p>本次搭建的是一个静态网站，使用的工具包括静态网站生成器Hugo、Git、Github Pages，以及一个基本的代码编辑器，推荐VSCode。使用的操作系统为Windows 10。&lt;/p>
+&lt;ol>
+&lt;li>在&lt;a href="https://github.com/gohugoio/hugo/releases">Hugo - Github&lt;/a>下载最新的Release，注意extended版本才支持SCSS样式文件；平台是Windows，所以这里选择下载&lt;a href="https://github.com/gohugoio/hugo/releases/download/v0.68.3/hugo_extended_0.68.3_Windows-64bit.zip">hugo_extended_0.68.3_Windows-64bit.zip&lt;/a>；解压后得到&lt;code>hugo.exe&lt;/code>文件，在D盘下建立文件夹&lt;code>Hugo&lt;/code>，将&lt;code>hugo.exe&lt;/code>放入（即&lt;code>D:\Hugo\hugo.exe&lt;/code>）。然后在「环境变量」→「系统变量」→&lt;code>Path&lt;/code>中添加&lt;code>D:\Hugo&lt;/code>，即可在终端（CMD、Powershell、VSCode Terminal）中使用&lt;code>hugo&lt;/code>命令。&lt;/li>
+&lt;li>在&lt;a href="https://git-scm.com/downloads">Git Downloads&lt;/a>中下载Windows版本的Git安装包，本文写作时的版本是2.26.0，有一大堆安装选项，之后有空的话我再写一篇文章专门解释各个选项的意思。#TODO&lt;/li>
+&lt;li>Github Pages是Github推出的一项免费托管服务，可以根据Github仓库内的文件将其转换为可直接访问的网站，域名是&lt;code>&amp;lt;github-username&amp;gt;.github.io&lt;/code>，也可以自定义域名。只需拥有一个Github账号即可使用该功能。&lt;/li>
+&lt;/ol>
+&lt;p>下文的所有命令，均在VSCode Terminal内执行（实质就是在VSCode内调用了Windows内置的Powershell）。&lt;/p>
+&lt;h2 id="项目初始化">项目初始化&lt;/h2>
+&lt;p>首先在Github上建立一个新仓库，名为&lt;code>blog&lt;/code>，用于托管本次网站项目的源码。&lt;/p>
+&lt;p>接着在某个本地目录下操作，这里我选择了D盘根路径：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\
+git clone https&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>//github.com/ffffansz/blog.git Site
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样我们的&lt;code>Site&lt;/code>文件夹在本地的绝对路径就是&lt;code>D:\Site&lt;/code>。&lt;/p>
+&lt;p>在&lt;code>Site&lt;/code>下添加&lt;code>README.md&lt;/code>文件，简述该仓库的用途：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="color:#75715e"># Blog&lt;/span>
+My personal site, powered by &lt;span style="color:#66d9ef">[Hugo]&lt;/span>(https&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>//gohugo.io) &amp;amp; [hugo-theme-diary](https&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>//github.com/AmazingRise/hugo-theme-diary).
+Hosted on Github Pages &lt;span style="color:#66d9ef">for&lt;/span> now.
+Welcome to visit it! &lt;span style="color:#960050;background-color:#1e0010">😊&lt;/span>
+&lt;span style="color:#66d9ef">[Libre]&lt;/span>(https&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>//libre.fun)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后在&lt;code>D:\Site\&lt;/code>目录下使用Hugo命令创建新站点：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\Site
+hugo new site .
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>会发现&lt;code>Site&lt;/code>目录内生成了如下的项目结构：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">&lt;span style="color:#960050;background-color:#1e0010">├─&lt;/span>archetypes
+&lt;span style="color:#960050;background-color:#1e0010">├─&lt;/span>content
+&lt;span style="color:#960050;background-color:#1e0010">├─&lt;/span>data
+&lt;span style="color:#960050;background-color:#1e0010">├─&lt;/span>layouts
+&lt;span style="color:#960050;background-color:#1e0010">├─&lt;/span>static
+&lt;span style="color:#960050;background-color:#1e0010">└─&lt;/span>themes
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用Git命令提交项目的更改，并推送到Github：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\Site
+git add .
+git commit -m &lt;span style="color:#e6db74">&amp;#34;first commit&amp;#34;&lt;/span>
+git push -u origin master
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>至此，初始化工作就完成了。&lt;/p>
+&lt;h2 id="添加主题">添加主题&lt;/h2>
+&lt;p>接下来利用Git Submodule功能添加主题。&lt;/p>
+&lt;p>Git Submodule简单来讲，就是在一个Git仓库中嵌套另一个Git仓库。以本网站为例，&lt;code>D:\Site&lt;/code>是一个Git仓库，而即将要添加的主题通常也是一个Git仓库，二者是嵌套关系。在Git的文档中，主仓库被称为SuperProject，本文中指的就是网站项目本身，主题则作为一个Submodule，可在SuperProject中使用&lt;code>git submodule&lt;/code>命令统一管理。&lt;/p>
+&lt;blockquote>
+&lt;p>当然，也可以直接下载主题文件并放进&lt;code>Site/themes&lt;/code>目录下。但是Hugo官方推荐以Submodule来管理主题。个人认为这样做的好处是方便主题的更新。&lt;/p>
+&lt;/blockquote>
+&lt;p>首先我们在&lt;a href="https://themes.gohugo.io/">Hugo Theme&lt;/a>挑选一个中意的主题，这里我选择了&lt;a href="https://github.com/AmazingRise/hugo-theme-diary">hugo-theme-diary&lt;/a>。&lt;/p>
+&lt;p>使用&lt;code>git submodule&lt;/code>命令将其添加为主题，并更新：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\Site
+git submodule add https&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>//github.com/AmazingRise/hugo-theme-diary.git themes/diary
+git submodule update --init --remote
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>完成后提交更改：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">git add .
+git commit -m &lt;span style="color:#e6db74">&amp;#34;add submodule themes/diary&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="添加内容">添加内容&lt;/h2>
+&lt;p>在Hugo中，所有的内容文件都放在&lt;code>content&lt;/code>目录下。对于个人博客，一般的做法是，在&lt;code>content&lt;/code>下建立&lt;code>posts&lt;/code>文件夹，然后往内放入博客文章的Markdown文件。&lt;/p>
+&lt;p>这里需要说明，不同主题对于内容文件放置的方式可能有不同的规定，对于本文使用的&lt;code>diary&lt;/code>主题以及大部分Hugo主题来说，上面提到的方式就是符合规范的。其他主题适用的放置方式则可以参考主题本身的说明或是主题源码下的&lt;code>exampleSite/content&lt;/code>目录。&lt;/p>
+&lt;h2 id="主题定制与本地预览">主题定制与本地预览&lt;/h2>
+&lt;p>接下来对网站主题进行定制，将其修改为自己喜欢的样式。&lt;/p>
+&lt;blockquote>
+&lt;p>不同主题的样式文件组织不同，因此这一部分并不适用于所有主题。&lt;/p>
+&lt;/blockquote>
+&lt;p>对主题进行定制有两种方式：&lt;/p>
+&lt;ol>
+&lt;li>一种是按照主题作者给出的设置项，修改网站根目录下&lt;code>config.toml&lt;/code>中的参数项，进行简单的功能配置。此项一般能够满足大部分人对网站主题的需求。&lt;/li>
+&lt;li>直接对CSS/SCSS样式文件、HTML模板和JS脚本进行修改。此项要求对Hugo模板（Template）和Web前端有了解。Hugo模板的技术细节需要阅读Hugo的&lt;a href="https://gohugo.io/documentation/">官方文档&lt;/a>，CSS/SCSS、JS则可以在网上找一些教程进行入门。&lt;/li>
+&lt;/ol>
+&lt;h3 id="预览主题示例网站">预览主题示例网站&lt;/h3>
+&lt;p>这里我们首先对主题进行预览。所有的Hugo主题都有一个&lt;code>exampleSite&lt;/code>文件夹，在本项目中，该文件夹的路径为&lt;code>D:\Site\themes\diary\exampleSite&lt;/code>。通过以下命令，使用Hugo进行网站渲染并启动本地服务器：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\Site\themes\diary\exampleSite
+hugo server --themesDir ../..
+&lt;span style="color:#75715e"># 以下为命令输出：&lt;/span>
+Building sites &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span>
+| EN
+-------------------+-----
+Pages | 31
+Paginator pages | 0
+Non-page files | 0
+Static files | 20
+Processed images | 0
+Aliases | 13
+Sitemaps | 1
+Cleaned | 0
+Built &lt;span style="color:#66d9ef">in&lt;/span> 48 ms
+Watching &lt;span style="color:#66d9ef">for&lt;/span> changes &lt;span style="color:#66d9ef">in&lt;/span> D:\Blog\Site\themes\diary\{archetypes,assets,exampleSite,layouts,static}
+Watching &lt;span style="color:#66d9ef">for&lt;/span> config changes &lt;span style="color:#66d9ef">in&lt;/span> D:\Blog\Site\themes\diary\exampleSite\config.toml
+Environment&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;development&amp;#34;&lt;/span>
+Serving pages from memory
+Running &lt;span style="color:#66d9ef">in&lt;/span> Fast Render Mode. &lt;span style="color:#66d9ef">For&lt;/span> full rebuilds on change&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span> hugo server --disableFastRender
+Web Server is available at http&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>//localhost&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span>1313/ (bind address 127.0.0.1)
+Press Ctrl+C to stop
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到网站已经运行在了&lt;code>localhost:1313&lt;/code>上，打开浏览器输入&lt;code>localhost:1313&lt;/code>即可看到本地运行的网站。&lt;/p>
+&lt;blockquote>
+&lt;p>注意，此时预览的是由主题作者提供的示例网站，配置文件使用了&lt;code>exampleSite\config.toml&lt;/code>，内容文件使用了&lt;code>exampleSite\content&lt;/code>。当你为自己的网站添加了内容和配置文件后，则需要在网站的根目录下执行&lt;code>hugo server&lt;/code>命令。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="主题定制">主题定制&lt;/h3>
+&lt;p>由于这部分并不通用，所以我只会简单记载所做的修改。&lt;a href="https://github.com/AmazingRise/hugo-theme-diary">hugo-theme-diary&lt;/a>可在&lt;code>config.toml&lt;/code>中配置一些基本功能模块，教程位于其Github仓库的Wiki中。&lt;/p>
+&lt;p>从初始化仓库到写作本文时，我总共进行了42次Commit，主要内容会写在网站的&lt;a href="#TODO">CHANGELOG&lt;/a>中。&lt;/p>
+&lt;h2 id="发布到github-pages">发布到Github Pages&lt;/h2>
+&lt;p>Github Pages是Github提供的免费静态网站托管服务。如果你的网站访问量较低，且没有其他服务器方面的需求，那么利用Github Pages来建立一个自己的个人网站是非常合适的选择。&lt;/p>
+&lt;p>以前，Github Pages还要求仓库名必须为&lt;code>&amp;lt;username&amp;gt;.github.io&lt;/code>的形式，不知道什么时候起就取消了这项规定，任何仓库名都可以被用来创建Github Pages。&lt;/p>
+&lt;p>正常情况下，在本地完成对网站内容或样式的编辑后，在&lt;code>Site&lt;/code>路径下执行&lt;code>hugo&lt;/code>命令，会生成&lt;code>Site/public&lt;/code>目录，该目录就是你的网站文件。然后使用&lt;code>git commit&lt;/code>和&lt;code>git push&lt;/code>命令，即可将网站源码和网站文件一起推送到Github仓库的master分支下。&lt;/p>
+&lt;p>但是这个方式，着实不太优雅，不但每次都需要手工构建网站（执行&lt;code>hugo&lt;/code>命令），而且源码还和编译结果搅和在一起。况且，Github Pages仅支持仓库根目录下以&lt;code>docs&lt;/code>命名的目录作为发布目录，Hugo生成的&lt;code>public&lt;/code>目录还需改名才能使用，更是麻烦。&lt;/p>
+&lt;p>因此这里我们借助Github Actions的功能，在master分支push后自动构建网站，并将构建结果（&lt;code>public&lt;/code>目录）发布到单独的&lt;code>gh-pages&lt;/code>分支。随后我们只需在仓库的Setting页面设置Github Pages使用&lt;code>gh-pages&lt;/code>分支来作为发布源即可，如下图：&lt;/p>
+&lt;p>&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20200412000129.png" alt="">&lt;/p>
+&lt;h3 id="cicd-workflow">CI/CD Workflow&lt;/h3>
+&lt;p>上文所述的这类自动构建、部署的流程也被称为CI/CD。Github Actions就正好可以完成这一工作。&lt;/p>
+&lt;p>前文提到，一旦Github Pages发布成功，网站即可通过&lt;code>&amp;lt;username&amp;gt;.github.io&lt;/code>来访问。因此，在制作CI/CD工作流前，我们首先需要在&lt;code>config.toml&lt;/code>内修改&lt;code>baseURL&lt;/code>的值：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-toml" data-lang="toml">&lt;span style="color:#a6e22e">baseURL&lt;/span> = &lt;span style="color:#e6db74">&amp;#34;https://&amp;lt;username&amp;gt;.github.io/&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># 需要将&amp;lt;username&amp;gt;替换成你自己的Github账户名&lt;/span>
+&lt;span style="color:#75715e"># other params ...&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>接下来才是利用Github Actions建立CI/CD工作流的过程。&lt;/p>
+&lt;p>首先需要在&lt;code>Site&lt;/code>目录下建立&lt;code>.github/workflows/&lt;/code>目录，然后在&lt;code>workflows&lt;/code>目录下建立一个&lt;code>gh-pages.yml&lt;/code>的文件。&lt;/p>
+&lt;blockquote class="my-alert my-alert-warning">
+&lt;p>&lt;p>不要忽略&lt;code>.github&lt;/code>前面的&lt;code>.&lt;/code>；&lt;/p>
+&lt;p>&lt;code>gh-pages.yml&lt;/code>的路径为&lt;code>Site/.github/workflows/gh-pages.yml&lt;/code>&lt;/p>
+&lt;/p>
+&lt;/blockquote>
+&lt;p>然后在&lt;code>gh-pages.yml&lt;/code>中写入如下内容（基于写作时最新版&lt;a href="https://github.com/peaceiris/actions-gh-pages">actions-gh-pages&lt;/a>的Hugo示例修改而来）：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#66d9ef">name&lt;/span>: Github Pages Deploy
+&lt;span style="color:#66d9ef">on&lt;/span>:
+&lt;span style="color:#66d9ef">push&lt;/span>:
+&lt;span style="color:#66d9ef">branches&lt;/span>:
+- master
+&lt;span style="color:#66d9ef">jobs&lt;/span>:
+&lt;span style="color:#66d9ef">deploy&lt;/span>:
+&lt;span style="color:#66d9ef">runs-on&lt;/span>: ubuntu&lt;span style="color:#ae81ff">-18.04&lt;/span>
+&lt;span style="color:#66d9ef">steps&lt;/span>:
+- &lt;span style="color:#66d9ef">uses&lt;/span>: actions/checkout@v2
+&lt;span style="color:#66d9ef">with&lt;/span>:
+&lt;span style="color:#66d9ef">submodules&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> &lt;span style="color:#75715e"># Fetch submodule Hugo themes&lt;/span>
+&lt;span style="color:#66d9ef">fetch-depth&lt;/span>: &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#75715e"># Fetch all commit history for .GitInfo and .Lastmod&lt;/span>
+- &lt;span style="color:#66d9ef">name&lt;/span>: Setup Hugo
+&lt;span style="color:#66d9ef">uses&lt;/span>: peaceiris/actions-hugo@v2
+&lt;span style="color:#66d9ef">with&lt;/span>:
+&lt;span style="color:#66d9ef">hugo-version&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;0.68.3&amp;#39;&lt;/span>
+&lt;span style="color:#66d9ef">extended&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+- &lt;span style="color:#66d9ef">name&lt;/span>: Build
+&lt;span style="color:#66d9ef">run&lt;/span>: hugo --minify
+- &lt;span style="color:#66d9ef">name&lt;/span>: Deploy
+&lt;span style="color:#66d9ef">uses&lt;/span>: peaceiris/actions-gh-pages@v3
+&lt;span style="color:#66d9ef">with&lt;/span>:
+&lt;span style="color:#66d9ef">github_token&lt;/span>: ${{ secrets.GITHUB_TOKEN }}
+&lt;span style="color:#66d9ef">publish_dir&lt;/span>: ./public
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>完成后，Commit并Push到Github，然后去Setting页面，将Github Pages的Source设置为&lt;code>gh-pages&lt;/code>即可。&lt;/p>
+&lt;p>Push后在仓库主页确认你的Actions执行状态：&lt;/p>
+&lt;p>&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20200412002223.png" alt="">&lt;/p>
+&lt;p>黄色圆点表示正在执行或排队等待，&lt;strong>绿色对勾表示执行完成&lt;/strong>，红色叉则表示构建出错，需要手动查看一下出错原因。个别时候是因为玄学问题，Re-Run一下即可，大部分时候还是网站源码本身存在错误，建议在本地执行&lt;code>hugo&lt;/code>排查错误。&lt;/p>
+&lt;p>如果一切顺利，等待几分钟，访问&lt;code>&amp;lt;username&amp;gt;.github.io&lt;/code>就能看到你的个人网站了。&lt;/p>
+&lt;h2 id="自定义域名及https">自定义域名及HTTPS&lt;/h2>
+&lt;p>最后，个人网站怎么能没有一个具有个人特色的域名呢。当你拥有自己的域名之后，就可以将其用在由Github Pages托管的个人网站上。&lt;/p>
+&lt;p>首先我们来明确最终要达到的效果。我拥有&lt;code>libre.fun&lt;/code>这个域名，想将其作为我个人主页的域名。并且，无论是输入&lt;code>www.libre.fun&lt;/code>还是&lt;code>libre.fun&lt;/code>都能正常访问网站。最后，出于安全和浏览器兼容性考虑，为网站设置HTTPS。&lt;/p>
+&lt;blockquote>
+&lt;p>主流浏览器目前都会给HTTP网站打上“不安全”的标记，例如Chrome。&lt;/p>
+&lt;/blockquote>
+&lt;p>设置的时候我也参考了网上不少的中文博客，但是很少有能把自定义域名这个过程讲清楚的，所以最后直接参照了Github Pages官方的帮助文档。&lt;/p>
+&lt;p>要实现上面所说的效果，需要进行以下几个步骤：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>在&lt;code>config.toml&lt;/code>中修改&lt;code>baseURL&lt;/code>，这里我们改为带&lt;code>www&lt;/code>前缀的&lt;code>https://www.libre.fun/&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在DNS提供商处添加解析记录。这一步最不容易理解，我们一步一步来讲。&lt;/p>
+&lt;p>以我的域名&lt;code>libre.fun&lt;/code>为例，我是在Namecheap购买的，然后购买了腾讯云DNSPod个人专业版云解析服务来进行DNS解析。&lt;/p>
+&lt;p>首先，按照DNSPod的提示，在Namecheap上修改&lt;code>libre.fun&lt;/code>的DNS：&lt;/p>
+&lt;p>&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20200412021814.png" alt="">&lt;/p>
+&lt;blockquote>
+&lt;p>如果是其他DNS解析服务，DNS地址可能会有所不同。DNSPod免费版、个人专业版的DNS地址也会不同。具体以DNS服务提供商给出的提示为准。&lt;/p>
+&lt;p>多说一句，DNSPod个人专业版经常会有促销活动，6元/年，非常划算。&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20200412021901.png" alt="">&lt;/p>
+&lt;blockquote>
+&lt;p>在域名注册商处修改完成后，通常需要等待一段时间，DNS服务提供商那里才会显示解析正常。&lt;/p>
+&lt;/blockquote>
+&lt;p>等到DNSPod显示解析正常后，在解析管理处，添加如下的解析记录：&lt;/p>
+&lt;p>&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20200412022410.png" alt="">&lt;/p>
+&lt;p>可以看到，图中总共有五个解析记录，四个A类型，一个CNAME类型。那么这些记录都是什么意思呢？&lt;/p>
+&lt;p>简单来说，&lt;strong>四个主机记录为@的A类型记录&lt;/strong>，是将&lt;code>libre.fun&lt;/code>这个地址解析到了四个不同的IP地址上，而这四个IP地址，都是Github Pages提供服务的IP地址，其出处是Github Pages的官方文档：&lt;a href="https://help.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site">Managing a custom domain for your GitHub Pages site&lt;/a>。&lt;/p>
+&lt;p>而主机记录为www的CNAME记录，则是将&lt;code>www.libre.fun&lt;/code>指向了&lt;code>ffffansz.github.io&lt;/code>这个默认域名，再由&lt;code>ffffansz.github.io&lt;/code>来提供IP地址。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在&lt;code>blog&lt;/code>仓库的Setting页，将Github Pages的Custom Domain设置为&lt;code>www.libre.fun&lt;/code>&lt;/p>
+&lt;blockquote>
+&lt;p>一定要是带www前缀的，否则会出现问题。&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>等待一小会后，勾选「Enforce HTTPS」。&lt;/p>
+&lt;p>&lt;img src="https://image-hosting-1251771285.cos.ap-guangzhou.myqcloud.com/20200412023430.png" alt="">&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>如果你严格按照上述步骤操作，没有在哪里该添加、哪里不该添加&lt;code>www&lt;/code>前缀的问题上出错，那么几分钟后，无论是带还是不带&lt;code>www&lt;/code>的个人域名，都可以用来访问你的个人主页了。&lt;/p>
+&lt;p>注意，如果没有按照上述步骤操作，你可能会遇到以下问题中的某个或多个：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>libre.fun&lt;/code>或&lt;code>www.libre.fun&lt;/code>其中一个地址打开会出现404&lt;/li>
+&lt;li>进入网站后发现网页只有文字和链接，网页样式丢失，按下F12，Console的报错信息与CORS相关：
+&lt;ul>
+&lt;li>可能是&lt;code>libre.fun&lt;/code>和&lt;code>www.libre.fun&lt;/code>之间的CORS问题&lt;/li>
+&lt;li>也可能是&lt;code>http://&lt;/code>和&lt;code>https://&lt;/code>之间的CORS问题&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>这些都说明你在某个步骤上参数设置有问题，请对照步骤重新检查。&lt;/p>
+&lt;h3 id="cicd-自定义域名设置">CI/CD 自定义域名设置&lt;/h3>
+&lt;p>按照上述方式配置后，网站便能够以&lt;code>libre.fun&lt;/code>或&lt;code>www.libre.fun&lt;/code>来访问。但是如果你在本地修改了网站源码或内容，再次Push后，会发现地址失效了。这是因为Github Pages Setting是通过在&lt;code>gh-pages&lt;/code>根目录下放置CNAME文件来实现自定义域名的。而每次Push，会导致重新生成&lt;code>gh-pages&lt;/code>的文件，原本的CNAME也就不复存在。&lt;/p>
+&lt;p>因此我们还需要在&lt;code>.github/workflows/gh-pages.yml&lt;/code>中做一些小修改。在文件最后加上一个&lt;code>cname&lt;/code>项即可：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#75715e"># ...&lt;/span>
+- &lt;span style="color:#66d9ef">name&lt;/span>: Deploy
+&lt;span style="color:#66d9ef">uses&lt;/span>: peaceiris/actions-gh-pages@v3
+&lt;span style="color:#66d9ef">with&lt;/span>:
+&lt;span style="color:#66d9ef">github_token&lt;/span>: ${{ secrets.GITHUB_TOKEN }}
+&lt;span style="color:#66d9ef">publish_dir&lt;/span>: ./public
+&lt;span style="color:#66d9ef">cname&lt;/span>: www.libre.fun
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote class="my-alert my-alert-note">
+&lt;p>仍然是带&lt;code>www&lt;/code>前缀的域名。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="小结">小结&lt;/h2>
+&lt;p>至此，一个基于Hugo，托管在Github Pages，且带有自动化CI/CD的静态个人网站就完成了。而且，经过一系列配置，网站使用HTTPS协议，可通过自定义域名访问（带不带&lt;code>www&lt;/code>前缀都可以）。&lt;/p>
+&lt;p>之后的工作就是不断地完善自己的网站，添加更多的博客文章，并且在原主题更新的基础上，自己对主题进行定制，根据自己的需要，开启或关闭、添加或删除网站的某些功能。&lt;/p>
+&lt;p>希望这篇文章能给打算自己建站的人带来帮助。&lt;/p>
+- https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://www.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 14:30:09 +0800</pubDate><guid>https://www.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://www.libre.fun/posts/setup-startup-in-wsl/ -&lt;p>在 &lt;a href="https://www.libre.fun/posts/install-wsl-and-troubleshooting/">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
 &lt;p>但是对于大部分使用WSL的人而言，无论是出于刚性需求（例如在WSL中运行一个Web服务器）、还是使用方便（随时通过SSH连接到WSL），都可能需要在WSL中加入开机启动项。具体方法如下所述。&lt;/p>
 &lt;p>本文阐述如何让一个WSL中的服务能够随Windows开机启动。以&lt;code>ssh&lt;/code>服务为例，该服务在WSL Ubuntu 18.04 LTS发行版中自带，但安装好后不会开机启动。&lt;/p>
 &lt;h2 id="在wsl中写好启动项脚本">在WSL中写好启动项脚本&lt;/h2>
