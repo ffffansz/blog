@@ -4,7 +4,7 @@
 在项目目录下建立Git仓库，然后Push到Github，Github上对应的仓库名为blog
 主题使用Git的子模块（Submodule）功能进行管理
 修改主题时，不去修改主题子模块本身的文件，而是将对应的样式文件、HTML或JS文件SCSS或HTML文件复制到Site目录下对应的目录再进行修改。由于Hugo的样式查找策略，会使用Site下的样式文件去替代themes/&amp;lt;theme-name&amp;gt;下的样式文件。
-这么做主要是考虑到主题后续还会更新，其样式文件会发生变化。Submodule功能k可以指定子模块的某次commit作为主项目使用的版本，更新与否取决于主项目是否想要使用新的版本。
+这么做主要是考虑到主题后续还会更新，其样式文件会发生变化。Submodule功能可以指定子模块的某次commit作为主项目使用的版本，更新与否取决于主项目是否想要使用新的版本。
 网站使用Github Pages发布，操作方式是在blog仓库中创建gh-pages分支，之后在仓库Setting页设置Source即可
 使用自定义域名
 利用Github Actions实现CI/CD，只需在本地master分支修改网站源码、添加博客内容，之后将master分支推送至Github即可，网站的生成和部署都由Github Actions完成。

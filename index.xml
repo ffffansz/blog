@@ -14,7 +14,7 @@
 &lt;li>
 &lt;p>修改主题时，不去修改主题子模块本身的文件，而是将对应的样式文件、HTML或JS文件SCSS或HTML文件复制到&lt;code>Site&lt;/code>目录下对应的目录再进行修改。由于Hugo的样式查找策略，会使用&lt;code>Site&lt;/code>下的样式文件去替代&lt;code>themes/&amp;lt;theme-name&amp;gt;&lt;/code>下的样式文件。&lt;/p>
 &lt;blockquote>
-&lt;p>这么做主要是考虑到主题后续还会更新，其样式文件会发生变化。Submodule功能k可以指定子模块的某次commit作为主项目使用的版本，更新与否取决于主项目是否想要使用新的版本。&lt;/p>
+&lt;p>这么做主要是考虑到主题后续还会更新，其样式文件会发生变化。Submodule功能可以指定子模块的某次commit作为主项目使用的版本，更新与否取决于主项目是否想要使用新的版本。&lt;/p>
 &lt;/blockquote>
 &lt;/li>
 &lt;li>
@@ -97,7 +97,7 @@ git commit -m &lt;span style="color:#e6db74">&amp;#34;add submodule themes/diary
 &lt;li>直接对CSS/SCSS样式文件、HTML模板和JS脚本进行修改。此项要求对Hugo模板（Template）和Web前端有了解。Hugo模板的技术细节需要阅读Hugo的&lt;a href="https://gohugo.io/documentation/">官方文档&lt;/a>，CSS/SCSS、JS则可以在网上找一些教程进行入门。&lt;/li>
 &lt;/ol>
 &lt;h3 id="预览主题示例网站">预览主题示例网站&lt;/h3>
-&lt;p>这里我们首先对主题进行预览。所有的Hugo主题都有一个&lt;code>exampleSite&lt;/code>文件夹，在本项目中，该文件夹的路径为&lt;code>D:\Site\themes\diary\exampleSite&lt;/code>。通过以下命令，使用Hugo进行网站渲染并启动本地服务器：&lt;/p>
+&lt;p>这里我们首先对主题进行预览。所有的Hugo主题都有一个&lt;code>exampleSite&lt;/code>文件夹，在本项目中，该文件夹的路径为&lt;code>D:\Site\themes\diary\exampleSite&lt;/code>。通过以下命令，使用Hugo构建网站并启动本地服务器：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">cd D:\Site\themes\diary\exampleSite
 hugo server --themesDir ../..
 &lt;span style="color:#75715e"># 以下为命令输出：&lt;/span>
