@@ -126,7 +126,7 @@ Press Ctrl+C to stop
 &lt;/blockquote>
 &lt;h3 id="主题定制">主题定制&lt;/h3>
 &lt;p>由于这部分并不通用，所以我只会简单记载所做的修改。&lt;a href="https://github.com/AmazingRise/hugo-theme-diary">hugo-theme-diary&lt;/a>可在&lt;code>config.toml&lt;/code>中配置一些基本功能模块，教程位于其Github仓库的Wiki中。&lt;/p>
-&lt;p>从初始化仓库到写作本文时，我总共进行了42次Commit，主要内容会写在网站的&lt;a href="#TODO">CHANGELOG&lt;/a>中。&lt;/p>
+&lt;p>从初始化仓库到写作本文时，我总共进行了42次Commit，主要内容会写在网站的&lt;a href="https://github.com/ffffansz/blog/blob/master/CHANGELOG.md">CHANGELOG&lt;/a>中。&lt;/p>
 &lt;h2 id="发布到github-pages">发布到Github Pages&lt;/h2>
 &lt;p>Github Pages是Github提供的免费静态网站托管服务。如果你的网站访问量较低，且没有其他服务器方面的需求，那么利用Github Pages来建立一个自己的个人网站是非常合适的选择。&lt;/p>
 &lt;p>以前，Github Pages还要求仓库名必须为&lt;code>&amp;lt;username&amp;gt;.github.io&lt;/code>的形式，不知道什么时候起就取消了这项规定，任何仓库名都可以被用来创建Github Pages。&lt;/p>
