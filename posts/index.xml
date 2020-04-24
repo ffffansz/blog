@@ -1,28 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Libre's Blog</title><link>https://www.libre.fun/posts/</link><description>Recent content in Posts on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Thu, 23 Apr 2020 15:24:28 +0800</lastBuildDate><atom:link href="https://www.libre.fun/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Github Pages搭建个人博客的最佳实践</title><link>https://www.libre.fun/posts/best-practices-for-building-blog-with-ghpage/</link><pubDate>Thu, 23 Apr 2020 15:24:28 +0800</pubDate><guid>https://www.libre.fun/posts/best-practices-for-building-blog-with-ghpage/</guid><description>引言 前不久使用Hugo重新搭建了自己的站点，利用Github Pages托管，也将整个过程记录了下来。其中，利用Github Actions实现CI/CD是我认为非常重要的一环，可以大大简化个人博客的更新流程。
-随着近半个月的使用，我的博客也发生了一些变化。由于要添加评论系统，需要在config.toml中写入一些Secrets，因此我将博客背后的托管逻辑进行了一些修改。
-在修改前，我只使用一个ffffansz/blog仓库，其中master分支包含了源码和仓库的README，而gh-pages分支则用于发布博客内容，该分支利用peaceiris/actions-gh-pages@v3进行更新，在每次master分支push时触发。
-修改后，仓库变成了两个，一个私有仓库ffffansz/blog-src，一个公有仓库ffffansz/blog。从名称不难想到，blog-src存放博客源码，只有一个master分支；blog仓库仍然具有两个分支，master分支存放README和网站的CHANGELOG，gh-pages分支和之前一样，用于发布Github Pages内容。
-个人认为，这种模式保证了私密信息的安全性，也在展示方面非常优雅。
-如有他人访问你的Github Profile，进入blog仓库，默认展现master分支，只有简单的两个Markdown文件，README可用于放置博客链接和一些文字介绍，CHANGELOG则是你自己记录博客更迭过程的一个日记。另一方面，有一些不便公开的信息，例如某些评论系统的Key，或是Google Analytics的UA号，则被隐藏在自己的私有仓库中。
-本文主要介绍我个人心中利用Github Pages搭建个人博客的最佳实践：Github仓库分布的设计，利用Github Actions实现CI/CD的流程等。也欢迎各位在评论区分享自己的个人博客搭建心得😊。
-本文的讨论不局限于任何特定的静态网站生成器。
-Github Pages发布内容的几种方式 为了进行示例，这里我创建一个名为exampleSite的仓库，并且创建了master和gh-pages两个分支。在Github上进入该仓库的「Setting」页面，有一名为「Github Pages」的模块。其中，点击「Source」下的下拉菜单，可以看到几种Github Pages发布内容的方式。
-此处的「内容」，特指静态网站生成器，如Hugo/Hexo/Gitbook等，处理网站源码后生成的用于发布的诸多网页文件。以Hugo为例，运行hugo命令后，会生成public目录。该目录下的文件就是本文所称的「内容」。
-这里由于仓库包含了gh-pages分支，因此系统默认启用Github Pages并选择了该方式。其他情况下，需要手动启用。
-有三种方式：
-发布gh-pages分支下所有内容👍 发布master分支下所有内容 发布master分支下/docs目录下所有内容 本文推荐使用第一种方式。理由在引言部分已有阐述：仓库首页干净简洁，纷乱的网站内容目录被隐藏到了gh-pages分支下。
-看到这里有读者可能会想到，建立一个blog仓库，使用三个分支：master分支只放README——保证了干净，src分支放网站源码，gh-pages分支放网站内容。
-但是这样一来，网站源码和网站内容，仍然处在同一个仓库内。然而我个人提倡将二者分离开来，这就是下一节要讨论的内容。
-分离博客源码和内容 以本站为例子来说明为什么要进行分离。
-起初，博客不具有评论功能。经过比较，我决定使用「Gitalk」为博客提供评论系统支持。根据网站使用的框架与主题，需要在网站源码目录的config.toml中，填入以下信息：
-[params.gitalk] owner = &amp;#34;&amp;lt;your-github-username&amp;gt;&amp;#34; repo = &amp;#34;&amp;lt;your-repository-used-for-placing-comments&amp;gt;&amp;#34; client_id = &amp;#34;&amp;lt;some_id&amp;gt;&amp;#34; client_secret = &amp;#34;&amp;lt;some_secret&amp;gt;&amp;#34; 这里的client_secret和client_id我是不愿暴露在公有仓库中的。虽然对于Gitalk而言，即使这两个信息暴露，其他人也无法对你造成什么干扰。但是如果推广到更多情况，我认为总有一些信息是不应当暴露到公有仓库的。
-为了实现源码和内容的分离，我们可以再创建一个私有仓库，取名为blog-src。然后将博客源码托管在该仓库内。
-利用Github Actions实现CI/CD CI/CD，意为持续集成/持续部署，是软件工程中的名词。在个人博客搭建这件事上，CI/CD可以实现的效果是：本地新增或修改了一篇文章，推送到blog-src仓库后，可以在较短时间（10分钟以内），自动将博客的改动反映至博客主页上。
-如果不借助Github Actions实现CI/CD，往往我们需要一些手动工作才能更新博客。以Hugo为例，修改过博客的样式或是文章后，我们需要在本地手动执行hugo命令生成public目录，然后将public目录下的内容手动推送至gh-pages分支，或是将public目录名修改为docs（Github Pages的设置则需要修改为方式3），等等，不够省心。
-得益于社区的贡献，目前已有很多开箱即用的Github Actions，本文推荐使用peaceiris/actions-gh-pages。另外，本网站使用了Hugo作为静态网站生成器，因此还需要peaceiris/actions-hugo，以实现本地修改push到仓库后，在线进行博客内容的构建，而省去了本地构建的麻烦。
-对于其他静态网站生成器，也可以在Github上找到对应的Actions；本质上，Github Actions的原理就是在Github的服务端运行容器，然后根据需要抽取出相应的内容。你也可以模仿peaceiris/actions-hugo来实现自己所需的Actions。
-添加Github Actions的方式很简单，在博客源码目录下新建.github/workflows目录，然后在其中建立gh-pages.yml文件，然后按照一定的语法指定Actions，下面给出本站使用的Actions：
-name: Github Pages Deploy # Actions的名称，说明用途 on: push: # 在仓库收到push时触发 branches: - master # 指定是master分支收到push时 jobs: deploy: runs-on: ubuntu-18.</description></item><item><title>Hugo &amp; Github Pages 建站过程全记录</title><link>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</link><pubDate>Sun, 12 Apr 2020 02:55:32 +0800</pubDate><guid>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</guid><description>整体步骤 之前也使用Hugo搭建过几次个人博客，但是由于各种各样的问题始终不甚满意，未能持续运行。这次再从头搭建一次，力求将各种细节都做到让自己满意。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Libre's Blog</title><link>https://www.libre.fun/posts/</link><description>Recent content in Posts on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Sun, 12 Apr 2020 02:55:32 +0800</lastBuildDate><atom:link href="https://www.libre.fun/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo &amp; Github Pages 建站过程全记录</title><link>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</link><pubDate>Sun, 12 Apr 2020 02:55:32 +0800</pubDate><guid>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</guid><description>整体步骤 之前也使用Hugo搭建过几次个人博客，但是由于各种各样的问题始终不甚满意，未能持续运行。这次再从头搭建一次，力求将各种细节都做到让自己满意。
 博客搭建的整体步骤如下：
 从hugo new site建立的空项目开始，逐步添加内容。项目根路径记为Site
 在项目目录下建立Git仓库，然后Push到Github，Github上对应的仓库名为blog
