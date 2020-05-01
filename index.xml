@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Libre's Blog</title><link>https://www.libre.fun/</link><description>Recent content on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Sun, 12 Apr 2020 02:55:32 +0800</lastBuildDate><atom:link href="https://www.libre.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo &amp; Github Pages 建站过程全记录</title><link>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</link><pubDate>Sun, 12 Apr 2020 02:55:32 +0800</pubDate><guid>https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/</guid><description>Libre's Blog https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/ -&lt;h2 id="整体步骤">整体步骤&lt;/h2>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Libre's Blog</title><link>https://blog.libre.fun/</link><description>Recent content on Libre's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Libre. 本站遵循 CC-BY-NC 4.0 协议</copyright><lastBuildDate>Sun, 12 Apr 2020 02:55:32 +0800</lastBuildDate><atom:link href="https://blog.libre.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo &amp; Github Pages 建站过程全记录</title><link>https://blog.libre.fun/posts/build-site-with-hugo-and-github-pages/</link><pubDate>Sun, 12 Apr 2020 02:55:32 +0800</pubDate><guid>https://blog.libre.fun/posts/build-site-with-hugo-and-github-pages/</guid><description>Libre's Blog https://blog.libre.fun/posts/build-site-with-hugo-and-github-pages/ -&lt;h2 id="整体步骤">整体步骤&lt;/h2>
 &lt;p>之前也使用Hugo搭建过几次个人博客，但是由于各种各样的问题始终不甚满意，未能持续运行。这次再从头搭建一次，力求将各种细节都做到让自己满意。&lt;/p>
 &lt;p>博客搭建的整体步骤如下：&lt;/p>
 &lt;ol>
@@ -249,7 +249,7 @@ Press Ctrl+C to stop
 &lt;p>至此，一个基于Hugo，托管在Github Pages，且带有自动化CI/CD的静态个人网站就完成了。而且，经过一系列配置，网站使用HTTPS协议，可通过自定义域名访问（带不带&lt;code>www&lt;/code>前缀都可以）。&lt;/p>
 &lt;p>之后的工作就是不断地完善自己的网站，添加更多的博客文章，并且在原主题更新的基础上，自己对主题进行定制，根据自己的需要，开启或关闭、添加或删除网站的某些功能。&lt;/p>
 &lt;p>希望这篇文章能给打算自己建站的人带来帮助。&lt;/p>
-- https://www.libre.fun/posts/build-site-with-hugo-and-github-pages/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://www.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 14:30:09 +0800</pubDate><guid>https://www.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://www.libre.fun/posts/setup-startup-in-wsl/ -&lt;p>在 &lt;a href="https://www.libre.fun/posts/install-wsl-and-troubleshooting/">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
+- https://blog.libre.fun/posts/build-site-with-hugo-and-github-pages/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 设置开机启动项</title><link>https://blog.libre.fun/posts/setup-startup-in-wsl/</link><pubDate>Tue, 29 Oct 2019 14:30:09 +0800</pubDate><guid>https://blog.libre.fun/posts/setup-startup-in-wsl/</guid><description>Libre's Blog https://blog.libre.fun/posts/setup-startup-in-wsl/ -&lt;p>在 &lt;a href="https://blog.libre.fun/posts/install-wsl-and-troubleshooting/">WSL Ubuntu的安装和Troubleshooting&lt;/a> 中，提到了WSL是一个阉割了部分功能的Linux，其中尤其是&lt;code>systemd&lt;/code>的阉割，使得不能方便地通过&lt;code>systemctl enable &amp;lt;service_name&amp;gt;&lt;/code>来把一个服务加入开机启动项内。&lt;/p>
 &lt;p>但是对于大部分使用WSL的人而言，无论是出于刚性需求（例如在WSL中运行一个Web服务器）、还是使用方便（随时通过SSH连接到WSL），都可能需要在WSL中加入开机启动项。具体方法如下所述。&lt;/p>
 &lt;p>本文阐述如何让一个WSL中的服务能够随Windows开机启动。以&lt;code>ssh&lt;/code>服务为例，该服务在WSL Ubuntu 18.04 LTS发行版中自带，但安装好后不会开机启动。&lt;/p>
 &lt;h2 id="在wsl中写好启动项脚本">在WSL中写好启动项脚本&lt;/h2>
@@ -283,7 +283,7 @@ ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;qu
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">bash -c &lt;span style="color:#e6db74">&amp;#34;sudo /etc/init.wsl&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>末尾传递的参数&lt;code>vbhide&lt;/code>是表示在后台执行该脚本。&lt;/p>
 &lt;p>最后提一句，可以看到&lt;code>ws.run &amp;quot;bash -c &amp;quot;&amp;quot;sudo /etc/init.wsl&amp;quot;&amp;quot;&amp;quot;, vbhide&lt;/code>中有很多个双引号，看得人眼花缭乱，但这实际上是由于VBScript的转义字符规则所导致，实在谈不上美观。&lt;/p>
-- https://www.libre.fun/posts/setup-startup-in-wsl/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://www.libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>Libre's Blog https://www.libre.fun/posts/install-wsl-and-troubleshooting/ -&lt;h2 id="什么是wsl">什么是WSL&lt;/h2>
+- https://blog.libre.fun/posts/setup-startup-in-wsl/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>WSL 的安装和一些 Troubleshooting</title><link>https://blog.libre.fun/posts/install-wsl-and-troubleshooting/</link><pubDate>Tue, 29 Oct 2019 12:50:09 +0800</pubDate><guid>https://blog.libre.fun/posts/install-wsl-and-troubleshooting/</guid><description>Libre's Blog https://blog.libre.fun/posts/install-wsl-and-troubleshooting/ -&lt;h2 id="什么是wsl">什么是WSL&lt;/h2>
 &lt;p>WSL中文全称为「适用于 Linux 的 Windows 子系统」（Windows Subsystem for Linux），是一个为在Windows 10和Windows Server 2019上能够原生运行Linux二进制可执行文件（ELF格式）的兼容层。&lt;/p>
 &lt;p>WSL相比于VMware等虚拟机解决方案更加轻量，启动速度更快，但代价是阉割了一些Linux系统的功能，例如&lt;code>systemd&lt;/code>、Ubuntu中的&lt;code>snapd&lt;/code>等（截止本文写作时）。但是对于一般Linux用户的使用是足够的。&lt;/p>
 &lt;h2 id="wsl的启用">WSL的启用&lt;/h2>
@@ -341,7 +341,7 @@ net start LxssManager
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-powershell" data-lang="powershell">service ssh status
 service ssh start
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认设置下，WSL中的&lt;code>ssh&lt;/code>服务不会开机启动。如果你是习惯使用XShell等工具连接到Linux主机，或是想要使用VSCode远程插件来使用WSL进行开发，那么你可能希望随时能够通过SSH连接到WSL，无须额外的手动操作。&lt;/p>
-&lt;p>我把在WSL中设置开机启动项的方法写在了&lt;a href="https://www.libre.fun/posts/setup-startup-in-wsl/">这篇文章&lt;/a>中。&lt;/p>
+&lt;p>我把在WSL中设置开机启动项的方法写在了&lt;a href="https://blog.libre.fun/posts/setup-startup-in-wsl/">这篇文章&lt;/a>中。&lt;/p>
 &lt;h4 id="确认ssh-host-key正确存在">确认SSH Host Key正确存在&lt;/h4>
 &lt;p>通过&lt;code>service ssh start&lt;/code>启动&lt;code>sshd&lt;/code>服务时，可能会出现如下提示：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ sudo service ssh start
@@ -365,7 +365,7 @@ PermitEmptyPasswords yes
 &lt;pre>&lt;code class="language-shel" data-lang="shel">Port 10022
 &lt;/code>&lt;/pre>&lt;p>该问题我自己没有遇到，但是对于某些安装了SSH服务的Windows主机来说可能会出现，因为Windows首先要确保主系统的SSH（默认也是开放在22端口）正常工作，因此可能会对WSL中运行在22端口的SSH产生干扰。&lt;/p>
 &lt;p>这里记录下来，以备后用。&lt;/p>
-- https://www.libre.fun/posts/install-wsl-and-troubleshooting/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>Docker 入门：镜像</title><link>https://www.libre.fun/posts/introduction-to-docker-image/</link><pubDate>Mon, 28 Oct 2019 10:58:00 +0800</pubDate><guid>https://www.libre.fun/posts/introduction-to-docker-image/</guid><description>Libre's Blog https://www.libre.fun/posts/introduction-to-docker-image/ -&lt;blockquote>
+- https://blog.libre.fun/posts/install-wsl-and-troubleshooting/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>Docker 入门：镜像</title><link>https://blog.libre.fun/posts/introduction-to-docker-image/</link><pubDate>Mon, 28 Oct 2019 10:58:00 +0800</pubDate><guid>https://blog.libre.fun/posts/introduction-to-docker-image/</guid><description>Libre's Blog https://blog.libre.fun/posts/introduction-to-docker-image/ -&lt;blockquote>
 &lt;p>参考：&lt;a href="https://yeasy.gitbooks.io/docker_practice/image/">Docker — 从入门到实践&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="镜像的基本原理">镜像的基本原理&lt;/h2>
@@ -495,7 +495,7 @@ Build Cache &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#ae
 &lt;p>在使用Docker一段时间后，使用&lt;code>docker image ls&lt;/code>查看镜像列表时，可能会出现&lt;code>REPOSITORY&lt;/code>和&lt;code>TAG&lt;/code>均为&lt;code>&amp;lt;none&amp;gt;&lt;/code>的镜像，但是仍具有ID。&lt;/p>
 &lt;p>这类镜像出现的原因是，随着镜像组的维护，新版本的镜像被发布，旧镜像的镜像名被转移到了新镜像的身上。例如&lt;code>ubuntu:18.04&lt;/code>，可能官方给其打了一个补丁后重新构建了镜像，但仍旧使用&lt;code>ubuntu:18.04&lt;/code>这个镜像名。虽然镜像名保持了旧的名称，但由于内容发生了变化，新镜像的ID也发生了变化。此时，旧的镜像的镜像名被“剥夺”，成为了所谓的“虚悬镜像”。&lt;/p>
 &lt;p>使用&lt;code>docker image ls -f dangling=true&lt;/code>可以专门查看此类镜像。&lt;/p>
-- https://www.libre.fun/posts/introduction-to-docker-image/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>Ubuntu 18.04.3 各类代理配置</title><link>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>Libre's Blog https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/ -&lt;p>本文主要阐述在Ubuntu系统中为一些软件配置代理的方法，包括APT、Snap、Git、Bash命令行以及Ubuntu系统层面的HTTP代理。&lt;/p>
+- https://blog.libre.fun/posts/introduction-to-docker-image/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>Ubuntu 18.04.3 各类代理配置</title><link>https://blog.libre.fun/posts/vmware-ubuntu-proxy-configure/</link><pubDate>Tue, 15 Oct 2019 16:54:57 +0800</pubDate><guid>https://blog.libre.fun/posts/vmware-ubuntu-proxy-configure/</guid><description>Libre's Blog https://blog.libre.fun/posts/vmware-ubuntu-proxy-configure/ -&lt;p>本文主要阐述在Ubuntu系统中为一些软件配置代理的方法，包括APT、Snap、Git、Bash命令行以及Ubuntu系统层面的HTTP代理。&lt;/p>
 &lt;h2 id="准备工作">准备工作&lt;/h2>
 &lt;h3 id="实验环境">实验环境&lt;/h3>
 &lt;p>本文中，笔者在VMware虚拟机中安装了Ubuntu系统，网络连接使用NAT模式。就代理的配置方式而言，无论虚拟机还是物理机都是通用的，区别只在于代理IP有所不同。在物理机上配置代理，只需要知道代理软件的IP（记作&lt;code>PROXY_IP&lt;/code>）和端口（本文中默认使用1080）。&lt;/p>
@@ -610,7 +610,7 @@ index.html &lt;span style="color:#f92672">[&lt;/span> &amp;lt;&lt;span style="co
 &lt;p>想要一次性为系统的所有用户配置代理，需要修改&lt;code>/etc/environment&lt;/code>文件：&lt;/p>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ echo -e &lt;span style="color:#e6db74">&amp;#34;http_proxy=http://PROXY_IP:1080/\nhttps_proxy=https://PROXY_IP:1080/&amp;#34;&lt;/span> | sudo tee -a /etc/environment
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>这种配置方法在重新登录后才会生效。&lt;/p>
-- https://www.libre.fun/posts/vmware-ubuntu-proxy-configure/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>Libre's Blog https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ -&lt;h2 id="问题原因">问题原因&lt;/h2>
+- https://blog.libre.fun/posts/vmware-ubuntu-proxy-configure/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item><item><title>CentOS 7.6 Minimal Installation 后无法连接网络</title><link>https://blog.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</link><pubDate>Sat, 05 Oct 2019 12:53:00 +0800</pubDate><guid>https://blog.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/</guid><description>Libre's Blog https://blog.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ -&lt;h2 id="问题原因">问题原因&lt;/h2>
 &lt;p>在安装CentOS 7.6系统时，图形安装界面的部分有一个配置网络的选项，进去之后可以开启网卡，而Minimal Installation默认是不开启网卡的，因此如果在安装系统时由于疏忽忘记打开网卡，进入系统之后会发现无法联网，所有和网络有关的操作都会报错。&lt;/p>
 &lt;h2 id="解决方法">解决方法&lt;/h2>
 &lt;p>首先通过命令&lt;code>nmcli d&lt;/code>查看网卡启用状态：&lt;/p>
@@ -627,4 +627,4 @@ DEVICE TYPE STATE CONNECTION
 ens33 ethernet connected ens33
 lo loopback unmanaged --
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>搞定。&lt;/p>
-- https://www.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item></channel></rss>
+- https://blog.libre.fun/posts/fix-network-connection-of-centos-with-mininal-installation/ - Libre. 本站遵循 CC-BY-NC 4.0 协议</description></item></channel></rss>
