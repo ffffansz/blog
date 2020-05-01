@@ -4,4 +4,4 @@ My personal website, powered by [Hugo](https://gohugo.io) & [hugo-theme-diary](h
 
 Hosted on Github Pages for now.
 
-Welcome to [Libre's blog](https://libre.fun)! :blush:
+Welcome to [Libre's blog](https://blog.libre.fun)! :blush:
